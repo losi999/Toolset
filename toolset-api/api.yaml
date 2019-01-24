@@ -1,0 +1,19 @@
+openapi: 3.0.0
+info:
+  description: Toolset API
+  version: "1.0.0"
+  title: Toolset API
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+
+tags:
+  - name: admins
+    description: Secured Admin-only calls
+  - name: users
+    description: Authenticated calls
+  - name: anonymous
+    description: Anonymous calls
+
