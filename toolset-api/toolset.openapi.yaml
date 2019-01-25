@@ -1,0 +1,107 @@
+openapi: 3.0.0
+info:
+  description: Toolset API
+  version: "1.0.0"
+  title: Toolset API
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+
+tags:
+  - name: admins
+    description: Secured Admin-only calls
+  - name: users
+    description: Authenticated calls
+  - name: anonymous
+    description: Anonymous calls
+paths:
+  /login:
+    post:
+      summary: User login
+      description: User login
+      tags:
+        - anonymous
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+        description: Username and password
+      responses:
+        200:
+          description: Login succesful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+        400:
+          description: Login failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              
+  /register:
+    post:
+      summary: user registration
+      description: User registration
+      tags:
+        - anonymous
+      operationId: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegistrationRequest"
+      responses:
+        200:
+          description: Registration successful
+          content:
+            application/json: {}
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      required:
+        - code
+      properties:
+        code:
+          type: string
+          example: ER001
+    LoginRequest:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          example: john
+        password:
+          type: string
+          example: psswd123
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: some.jwt.token
+    RegistrationRequest:
+      type: object
+      required:
+        - username
+        - password
+        - displayName
+      properties:
+        username:
+          type: string
+          example: john
+        password:
+          type: string
+          example: psswd123
+        displayName:
+          type: string
+          example: John
