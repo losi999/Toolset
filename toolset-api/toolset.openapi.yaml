@@ -46,7 +46,7 @@ paths:
               
   /register:
     post:
-      summary: user registration
+      summary: User registration
       description: User registration
       tags:
         - anonymous
@@ -56,11 +56,19 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/RegistrationRequest"
+        description: Username, password and display name
+
       responses:
         200:
           description: Registration successful
           content:
-            application/json: {}
+            application/json: {}  
+        400:
+          description: Registration failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
     ErrorResponse:
