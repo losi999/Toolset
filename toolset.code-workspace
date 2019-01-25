@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "Express.js API",
+			"path": "toolset-api"
+		},
+		{
+			"name": "Environment",	
+			"path": "toolset-environment"
+		}
+	],
+	"settings": {}
+}
