@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "pretty": true,
+        "sourceMap": true,
+        "target": "es2017",
+        "lib": [ "es2017"],
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "types": [
+            "reflect-metadata"
+        ],
+        "baseUrl": ".",
+        "paths": {
+            "motorsport/*": [
+                "src/*"
+            ]
+        }
+    },
+    "include": [
+        "src"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
