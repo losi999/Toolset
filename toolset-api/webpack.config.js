@@ -8,7 +8,10 @@ module.exports = {
   devtool: 'source-map',
   externals: {
     express: 'commonjs express',
-    'body-parser': 'commonjs body-parser'
+    'body-parser': 'commonjs body-parser',
+    mongoose: 'commonjs mongoose',
+    bcryptjs: 'commonjs bcryptjs',
+    jsonwebtoken: 'commonjs jsonwebtoken'
   },
   module: {
     rules: [

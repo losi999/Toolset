@@ -1,7 +1,9 @@
 import { Application, Request, Response } from "express";
-import { IRequest } from "./models/types/IRequest";
-import { IResponse } from "./models/types/IResponse";
+import IRequest from "./models/types/IRequest";
+import IResponse from "./models/types/IResponse";
 import UsersController from "./controllers/usersController";
+import authorize from './middlewares/authorize';
+
 
 const controllerToRoute = <T, U>(controllerAction: (request: IRequest<T>) => Promise<IResponse<U>>) => {
     return async (req: Request, res: Response): Promise<void> => {
@@ -14,7 +16,8 @@ const controllerToRoute = <T, U>(controllerAction: (request: IRequest<T>) => Pro
 
             res.status(status).send(body);
         } catch (error) {
-            res.status(400).send(error);
+            console.error(error);
+            res.status(error.status).send(error.message);
         }
     };
 };
@@ -22,11 +25,15 @@ const controllerToRoute = <T, U>(controllerAction: (request: IRequest<T>) => Pro
 export default class Routes {
     constructor(private usersController: UsersController) { }
 
-    public setup(app: Application) {
+    public async setup(app: Application) {
         app.route('/login')
-            .post(controllerToRoute(this.usersController.login));
+            .post(controllerToRoute(await this.usersController.login()));
 
         app.route('/register')
-            .post(controllerToRoute(this.usersController.register));
+            .post(controllerToRoute(await this.usersController.register()));
+
+        app.route('/profile')
+            .get(await authorize('user'),
+                controllerToRoute(await this.usersController.profile()));
     }
 }

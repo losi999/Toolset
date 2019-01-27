@@ -1,4 +1,4 @@
-export interface IResponse<T> {
+export default interface IResponse<T> {
     status: number;
     body?: T;
 }
