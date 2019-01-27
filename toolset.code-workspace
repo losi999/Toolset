@@ -5,8 +5,12 @@
 			"path": "toolset-api"
 		},
 		{
-			"name": "Environment",	
+			"name": "Environment",
 			"path": "toolset-environment"
+		},
+		{
+			"name": "React.js client",
+			"path": "toolset-react-js"
 		}
 	],
 	"settings": {

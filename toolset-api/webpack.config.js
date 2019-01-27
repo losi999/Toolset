@@ -11,7 +11,8 @@ module.exports = {
     'body-parser': 'commonjs body-parser',
     mongoose: 'commonjs mongoose',
     bcryptjs: 'commonjs bcryptjs',
-    jsonwebtoken: 'commonjs jsonwebtoken'
+    jsonwebtoken: 'commonjs jsonwebtoken',
+    cors: 'commonjs cors'
   },
   module: {
     rules: [
