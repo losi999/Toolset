@@ -12,7 +12,7 @@ const NavigationBar = () => {
                     </Link>
                 </li>
                 <li>
-                    <Link to='/LOGIN' >
+                    <Link to='/login' >
                         LOGIN
                     </Link>
                 </li>

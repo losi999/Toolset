@@ -60,12 +60,18 @@ export default class UsersController {
                     status: 400
                 };
             }
+            try {
 
-            await this.repository.createUser({
-                ...req.body,
-                role: 'user',
-                password: bcrypt.hashSync(req.body.password)
-            });
+                await this.repository.createUser({
+                    ...req.body,
+                    role: 'user',
+                    password: bcrypt.hashSync(req.body.password)
+                });
+            } catch (error) {
+                return {
+                    status: 400
+                };
+            }
 
             return {
                 status: 200

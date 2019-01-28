@@ -1,19 +1,8 @@
-import Register from './register';
+import Register, { validate, warn } from './register';
 import { withRouter } from 'react-router-dom';
 import { reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { register } from './../../actions/userActions';
-
-// const validate = values => {
-//     const errors = {};
-
-//     console.log(values);
-//     if ((values.username || '').length < 4) {
-//         errors.username = 'Username too short';
-//     }
-
-//     return errors;
-// };
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -25,5 +14,6 @@ const mapDispatchToProps = dispatch => {
 
 export default withRouter(reduxForm({
     form: 'register',
-    // validate
+    validate,
+    warn
 })(connect(null, mapDispatchToProps)(Register)));

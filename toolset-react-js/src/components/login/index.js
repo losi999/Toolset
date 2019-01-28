@@ -1,4 +1,4 @@
-import Login from './login';
+import Login, { validate } from './login';
 import { withRouter } from 'react-router-dom';
 import { reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
@@ -13,5 +13,6 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default withRouter(reduxForm({
-    form: 'login'
+    form: 'login',
+    validate
 })(connect(null, mapDispatchToProps)(Login)));
