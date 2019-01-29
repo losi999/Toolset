@@ -3,12 +3,14 @@ import IResponse from "../models/types/IResponse";
 import LoginRequest from "../models/DTOs/loginRequest";
 import LoginResponse from "../models/DTOs/loginResponse";
 import RegisterRequest from "../models/DTOs/registerRequest";
-import UserRepository from "../repositories/userRepository";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { IUnitOfWork } from "../interfaces";
+import { inject, injectable } from "inversify";
 
+@injectable()
 export default class UsersController {
-    constructor(private repository: UserRepository) { }
+    constructor(@inject('unitOfWork') private unitOfWork: IUnitOfWork) { }
 
     public async login() {
         return async (req: IRequest<LoginRequest>): Promise<IResponse<LoginResponse>> => {
@@ -19,7 +21,7 @@ export default class UsersController {
                 };
             }
 
-            const user = await this.repository.getUserByUsername(req.body.username);
+            const user = await this.unitOfWork.user.getUserByUsername(req.body.username);
             if (!user) {
                 throw {
                     status: 400,
@@ -62,7 +64,7 @@ export default class UsersController {
             }
             try {
 
-                await this.repository.createUser({
+                await this.unitOfWork.user.createUser({
                     ...req.body,
                     role: 'user',
                     password: bcrypt.hashSync(req.body.password)

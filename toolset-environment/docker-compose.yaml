@@ -1,12 +1,19 @@
 version: "3"
 services:
   mongodb:
-    container_name: mongodb
     image: mongo
     ports: 
-      - 27017:27017
+      - ${MONGODB_PORT:-27017}:27017
     volumes:
       - mongodb-data:/data/db
+  dynamodb:
+    image: amazon/dynamodb-local
+    ports:
+      - ${DYNAMODB_PORT:-8000}:8000
+    volumes:
+      - 'dynamodb-data:/home/dynamodblocal'
+    command: -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
     
 volumes:
   mongodb-data:
+  dynamodb-data:

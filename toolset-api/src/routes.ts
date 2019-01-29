@@ -3,6 +3,7 @@ import IRequest from "./models/types/IRequest";
 import IResponse from "./models/types/IResponse";
 import UsersController from "./controllers/usersController";
 import authorize from './middlewares/authorize';
+import { inject, injectable } from "inversify";
 
 
 const controllerToRoute = <T, U>(controllerAction: (request: IRequest<T>) => Promise<IResponse<U>>) => {
@@ -16,12 +17,13 @@ const controllerToRoute = <T, U>(controllerAction: (request: IRequest<T>) => Pro
 
             res.status(status).send(body);
         } catch (error) {
-            console.error(error);
-            res.status(error.status).send(error.message);
+            console.error('unexpected error', error);
+            res.status(error.status || 500).send(error.message);
         }
     };
 };
 
+@injectable()
 export default class Routes {
     constructor(private usersController: UsersController) { }
 
