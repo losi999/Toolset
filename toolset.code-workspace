@@ -1,18 +1,30 @@
 {
 	"folders": [
-		{
-			"name": "Express.js API",
-			"path": "toolset-api"
-		},
-		{
-			"name": "Environment",
-			"path": "toolset-environment"
-		},
-		{
-			"name": "React.js client",
-			"path": "toolset-react-js"
-		}
-	],
+        {
+            "name": "Express.js API",
+            "path": "toolset-api"
+        },
+        {
+            "name": "Environment",
+            "path": "toolset-environment"
+        },
+        {
+            "name": "React.js client",
+            "path": "toolset-react-js"
+        },
+        {
+            "name": "Angular client",
+            "path": "toolset-angular"
+        },
+        {
+            "name": "Vue.js client",
+            "path": "toolset-vue-js"
+        },
+        {
+			"name": "Angular.js client",
+            "path": "toolset-angular-js"
+        }
+    ],
 	"settings": {
 		"files.exclude": {
 			"**/node_modules": true
