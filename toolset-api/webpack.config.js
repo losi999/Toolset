@@ -1,5 +1,4 @@
 const path = require('path');
-const Dotenv = require('dotenv-webpack');
 
 module.exports = (env, options) => {
     return {
@@ -15,6 +14,7 @@ module.exports = (env, options) => {
             cors: 'commonjs cors',
             inversify: 'commonjs inversify',
             'reflect-metadata': 'commonjs reflect-metadata',
+            dotenv: 'commonjs dotenv'
         },
         module: {
             rules: [{
@@ -27,9 +27,6 @@ module.exports = (env, options) => {
         resolve: {
             extensions: ['.tsx', '.ts', '.js'],
         },
-        plugins: [
-            new Dotenv()
-        ],
         output: {
             path: path.join(__dirname, options.mode === 'production' ? 'build' : 'dist'),
             filename: 'server.js',
