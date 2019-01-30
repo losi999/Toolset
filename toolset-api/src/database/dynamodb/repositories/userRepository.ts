@@ -1,5 +1,5 @@
 import { IUserRepository } from "../../../interfaces";
-import { User } from "../../../models/schemas/user";
+import { User } from "../../../models/entities/user";
 
 export default class UserRepository implements IUserRepository {
     createUser(user: User): Promise<void> {

@@ -3,7 +3,7 @@ import IRequest from "./models/types/IRequest";
 import IResponse from "./models/types/IResponse";
 import UsersController from "./controllers/usersController";
 import authorize from './middlewares/authorize';
-import { inject, injectable } from "inversify";
+import { injectable } from "inversify";
 
 
 const controllerToRoute = <T, U>(controllerAction: (request: IRequest<T>) => Promise<IResponse<U>>) => {
