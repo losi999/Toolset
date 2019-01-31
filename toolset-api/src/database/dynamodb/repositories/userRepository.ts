@@ -2,11 +2,11 @@ import { IUserRepository } from "../../../interfaces";
 import { User } from "../../../models/entities/user";
 
 export default class UserRepository implements IUserRepository {
-    createUser(user: User): Promise<void> {
-        throw new Error("Method not implemented.");
+    async createUser(user: User): Promise<void> {
+
     }
-    getUserByUsername(username: string): Promise<User | null> {
-        throw new Error("Method not implemented.");
+    async getUserByUsername(username: string): Promise<User | null> {
+        return null;
     }
 
 
