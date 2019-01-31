@@ -20,8 +20,7 @@ module.exports = (env, options) => {
         },
         output: {
             path: path.join(__dirname, options.mode === 'production' ? 'build' : 'dist'),
-            filename: 'server.js',
-            devtoolModuleFilenameTemplate: '[absolute-resource-path]'
+            filename: 'server.js'
         },
         stats: {
             warnings: false
