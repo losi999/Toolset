@@ -3,13 +3,13 @@ services:
   mongodb:
     image: mongo
     ports: 
-      - ${MONGODB_PORT:-27017}:27017
+      - ${MONGODB_PORT:-8001}:27017
     volumes:
       - mongodb-data:/data/db
   dynamodb:
     image: amazon/dynamodb-local
     ports:
-      - ${DYNAMODB_PORT:-8000}:8000
+      - ${DYNAMODB_PORT:-8002}:8000
     volumes:
       - 'dynamodb-data:/home/dynamodblocal'
     command: -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
@@ -25,7 +25,7 @@ services:
       MONGO_DATABASE: ${MONGO_DATABASE:-toolset}
       JWT_SECRET: ${JWT_SECRET:-NOT_A_SECRET}
     ports:
-      - ${API_MONGO_PORT-88}:80
+      - ${API_MONGO_PORT-81}:80
       - '9001:9229'
     volumes:
       - './../toolset-api/dist:/app'
@@ -39,7 +39,7 @@ services:
       DYNAMO_URL: http://dynamo:8000
       JWT_SECRET: ${JWT_SECRET:-NOT_A_SECRET}
     ports:
-      - ${API_DYNAMO_PORT-89}:80
+      - ${API_DYNAMO_PORT-82}:80
       - '9002:9229'
     volumes:
       - './../toolset-api/dist:/app'

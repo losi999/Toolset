@@ -29,13 +29,13 @@ export default class Routes {
 
     public async setup(app: Application) {
         app.route('/login')
-            .post(controllerToRoute(await this.usersController.login()));
+            .post(controllerToRoute(this.usersController.login()));
 
         app.route('/register')
-            .post(controllerToRoute(await this.usersController.register()));
+            .post(controllerToRoute(this.usersController.register()));
 
         app.route('/profile')
-            .get(await authorize('user'),
-                controllerToRoute(await this.usersController.profile()));
+            .get(authorize('user'),
+                controllerToRoute(this.usersController.profile()));
     }
 }

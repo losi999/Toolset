@@ -12,7 +12,7 @@ import { inject, injectable } from "inversify";
 export default class UsersController {
     constructor(@inject('unitOfWork') private unitOfWork: IUnitOfWork) { }
 
-    public async login() {
+    public login() {
         return async (req: IRequest<LoginRequest>): Promise<IResponse<LoginResponse>> => {
             if (!req.body.username || !req.body.password) {
                 throw {
@@ -55,7 +55,7 @@ export default class UsersController {
     }
 
 
-    public async register() {
+    public register() {
         return async (req: IRequest<RegisterRequest>): Promise<IResponse<void | any>> => {
             if (!req.body.username || !req.body.password || !req.body.displayName) {
                 return {
@@ -81,7 +81,7 @@ export default class UsersController {
         };
     }
 
-    public async profile() {
+    public profile() {
         return async (req: IRequest<RegisterRequest>): Promise<IResponse<void | any>> => {
 
             return {
