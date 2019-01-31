@@ -38,6 +38,9 @@ services:
       DB_TYPE: dynamodb
       DYNAMO_URL: http://dynamo:8000
       JWT_SECRET: ${JWT_SECRET:-NOT_A_SECRET}
+      AWS_REGION: ${AWS_REGION:-us-east-1}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-a}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-a}
     ports:
       - ${API_DYNAMO_PORT-82}:80
       - '9002:9229'
