@@ -5,7 +5,7 @@ import UserRepository from "./repositories/userRepository";
 @injectable()
 export default class UnitOfWork implements IUnitOfWork {
     constructor() {
-        console.log('"Connected" to DynamoDB')
+        console.log(`"Connected" to DynamoDB: ${process.env.DYNAMO_URL}`)
         this.user = new UserRepository();
     }
 

@@ -13,7 +13,37 @@ services:
     volumes:
       - 'dynamodb-data:/home/dynamodblocal'
     command: -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
-    
+
+  api-mongodb:
+    build: ./toolset-api
+    image: toolset-api:dev
+    links:
+      - 'mongodb:mongo'
+    environment: 
+      DB_TYPE: mongodb
+      MONGO_URL: mongodb://mongo:27017
+      MONGO_DATABASE: ${MONGO_DATABASE:-toolset}
+      JWT_SECRET: ${JWT_SECRET:-NOT_A_SECRET}
+    ports:
+      - ${API_MONGO_PORT-88}:80
+      - '9001:9229'
+    volumes:
+      - './../toolset-api/dist:/app'
+  api-dynamodb:
+    build: ./toolset-api
+    image: toolset-api:dev
+    links:
+      - 'dynamodb:dynamo'
+    environment: 
+      DB_TYPE: dynamodb
+      DYNAMO_URL: http://dynamo:8000
+      JWT_SECRET: ${JWT_SECRET:-NOT_A_SECRET}
+    ports:
+      - ${API_DYNAMO_PORT-89}:80
+      - '9002:9229'
+    volumes:
+      - './../toolset-api/dist:/app'
+
 volumes:
   mongodb-data:
   dynamodb-data:
