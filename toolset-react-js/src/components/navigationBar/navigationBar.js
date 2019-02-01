@@ -7,8 +7,8 @@ const NavigationBar = () => {
         <nav>
             <ul>
                 <li>
-                    <Link to='/register' >
-                        REGISTER
+                    <Link to='/registration' >
+                        REGISTRATION
                     </Link>
                 </li>
                 <li>

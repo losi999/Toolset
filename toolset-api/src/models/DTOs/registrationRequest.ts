@@ -1,4 +1,4 @@
-export default interface RegisterRequest {
+export default interface RegistrationRequest {
     username: string;
     password: string;
     displayName: string;

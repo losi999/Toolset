@@ -2,7 +2,7 @@ import IRequest from "../models/types/IRequest";
 import IResponse from "../models/types/IResponse";
 import LoginRequest from "../models/DTOs/loginRequest";
 import LoginResponse from "../models/DTOs/loginResponse";
-import RegisterRequest from "../models/DTOs/registerRequest";
+import RegistrationRequest from "../models/DTOs/registrationRequest";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { IUnitOfWork } from "../interfaces";
@@ -55,8 +55,8 @@ export default class UsersController {
     }
 
 
-    public register() {
-        return async (req: IRequest<RegisterRequest>): Promise<IResponse<void | any>> => {
+    public registration() {
+        return async (req: IRequest<RegistrationRequest>): Promise<IResponse<void | any>> => {
             if (!req.body.username || !req.body.password || !req.body.displayName) {
                 return {
                     status: 400
@@ -82,7 +82,7 @@ export default class UsersController {
     }
 
     public profile() {
-        return async (req: IRequest<RegisterRequest>): Promise<IResponse<void | any>> => {
+        return async (req: IRequest<RegistrationRequest>): Promise<IResponse<void | any>> => {
 
             return {
                 status: 200

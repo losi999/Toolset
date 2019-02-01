@@ -1,7 +1,7 @@
 import React from 'react';
-import './register.css';
+import './registration.css';
 import { Field } from 'redux-form';
-import textField from './../textField/index';
+import textField from '../textField/index';
 
 export const validate = values => {
     const errors = {};
@@ -59,9 +59,9 @@ export const warn = values => {
     return warnings;
 };
 
-const Register = (props) => {
+const Registration = (props) => {
     const onSubmit = (values) => {
-        props.register(values);
+        props.registration(values);
     };
 
     return (
@@ -103,4 +103,4 @@ const Register = (props) => {
     )
 };
 
-export default Register;
+export default Registration;

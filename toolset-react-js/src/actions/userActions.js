@@ -1,33 +1,33 @@
 import axios from 'axios';
 
-const registerRequested = () => {
+const registrationRequested = () => {
     return {
-        type: 'REGISTER_REQUESTED'
+        type: 'REGISTRATION_REQUESTED'
     };
 };
 
-const registerSucceeded = () => {
+const registrationSucceeded = () => {
     return {
-        type: 'REGISTER_SUCCEEDED'
+        type: 'REGISTRATION_SUCCEEDED'
     };
 };
 
-const registerFailed = () => {
+const registrationFailed = () => {
     return {
-        type: 'REGISTER_FAILED'
+        type: 'REGISTRATION_FAILED'
     };
 };
 
-export const register = (user) => {
+export const registration = (user) => {
     return (dispatch) => {
-        dispatch(registerRequested());
+        dispatch(registrationRequested());
 
-        axios.post(`${process.env.REACT_APP_API_URL}/register`, user)
+        axios.post(`${process.env.REACT_APP_API_URL}/registration`, user)
             .then(response => {
-                dispatch(registerSucceeded());
+                dispatch(registrationSucceeded());
             })
             .catch(error => {
-                dispatch(registerFailed());
+                dispatch(registrationFailed());
             });
     };
 };

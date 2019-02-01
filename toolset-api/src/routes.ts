@@ -31,8 +31,8 @@ export default class Routes {
         app.route('/login')
             .post(controllerToRoute(this.usersController.login()));
 
-        app.route('/register')
-            .post(controllerToRoute(this.usersController.register()));
+        app.route('/registration')
+            .post(controllerToRoute(this.usersController.registration()));
 
         app.route('/profile')
             .get(authorize('user'),

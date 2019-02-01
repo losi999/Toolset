@@ -2,7 +2,7 @@ import React from 'react';
 import './app.css';
 import { Route, Switch } from 'react-router-dom';
 import NavigationBar from './../navigationBar/index';
-import Register from './../register/index';
+import Registration from './../registration/index';
 import Login from './../login/index';
 
 const App = () => {
@@ -12,7 +12,7 @@ const App = () => {
       <div className="content">
         <Switch>
           <Route path='/login' component={Login} />
-          <Route path='/register' component={Register} />
+          <Route path='/registration' component={Registration} />
         </Switch>
       </div>
     </div>
