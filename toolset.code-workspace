@@ -21,8 +21,12 @@
             "path": "toolset-vue-js"
         },
         {
-			"name": "Angular.js client",
+            "name": "Angular.js client",
             "path": "toolset-angular-js"
+        },
+        {
+		            "name": "Vue client",
+            "path": "toolset-vue"
         }
     ],
 	"settings": {
