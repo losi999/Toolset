@@ -17,15 +17,11 @@
             "path": "toolset-angular"
         },
         {
-            "name": "Vue.js client",
-            "path": "toolset-vue-js"
-        },
-        {
             "name": "Angular.js client",
             "path": "toolset-angular-js"
         },
         {
-		            "name": "Vue client",
+            "name": "Vue client",
             "path": "toolset-vue"
         }
     ],
