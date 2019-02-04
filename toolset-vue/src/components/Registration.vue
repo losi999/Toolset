@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @submit.prevent="onSubmit">
     <div>
       <label>
         Username
@@ -60,6 +60,9 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class Registration extends Vue {
   //   @Prop() private msg!: string;
+  public onSubmit() {
+    console.log('submit');
+  }
 }
 </script>
 
