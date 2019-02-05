@@ -1,19 +1,19 @@
 import React from 'react';
 import './textField.css';
 
-const validationError = ({ touched, error }) => {
+const validationError = ({ touched, error }: any) => {
     if (touched && error) {
         return (<span className="error">{error}</span>)
     }
 }
 
-const validationWarning = ({ touched, error, warning }) => {
+const validationWarning = ({ touched, error, warning }: any) => {
     if (touched && !error && warning) {
         return (<span className="warning">{warning}</span>)
     }
 }
 
-const textField = ({ label, input, type, meta }) => {
+const textField = ({ label, input, type, meta }: any) => {
     return (
         <label>
             {label}

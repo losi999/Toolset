@@ -9,8 +9,8 @@
             "path": "toolset-environment"
         },
         {
-            "name": "React.js client",
-            "path": "toolset-react-js"
+            "name": "React client",
+            "path": "toolset-react"
         },
         {
             "name": "Angular client",

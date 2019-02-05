@@ -18,8 +18,8 @@ const registrationFailed = () => {
     };
 };
 
-export const registration = (user) => {
-    return (dispatch) => {
+export const registration = (user: any) => {
+    return (dispatch: any) => {
         dispatch(registrationRequested());
 
         axios.post(`${process.env.REACT_APP_API_URL}/registration`, user)
@@ -50,8 +50,8 @@ const loginFailed = () => {
     };
 };
 
-export const login = (user) => {
-    return (dispatch) => {
+export const login = (user: any) => {
+    return (dispatch: any) => {
         dispatch(loginRequested());
 
         axios.post(`${process.env.REACT_APP_API_URL}/login`, user)

@@ -4,9 +4,9 @@ import { reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { registration } from './../../actions/userActions';
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch: any) => {
     return {
-        registration(user) {
+        registration(user: any) {
             dispatch(registration(user));
         }
     }

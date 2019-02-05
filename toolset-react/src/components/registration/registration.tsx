@@ -3,8 +3,8 @@ import './registration.css';
 import { Field } from 'redux-form';
 import textField from '../textField/index';
 
-export const validate = values => {
-    const errors = {};
+export const validate = (values: any) => {
+    const errors: any = {};
 
     if (!values.username) {
         errors.username = 'Required';
@@ -41,8 +41,8 @@ export const validate = values => {
     return errors;
 };
 
-export const warn = values => {
-    const warnings = {};
+export const warn = (values: any) => {
+    const warnings: any = {};
 
     if (values.username && values.username.length < 6) {
         warnings.username = 'Username should be at least 6 characters long';
@@ -59,8 +59,8 @@ export const warn = values => {
     return warnings;
 };
 
-const Registration = (props) => {
-    const onSubmit = (values) => {
+const Registration = (props: any) => {
+    const onSubmit = (values: any) => {
         props.registration(values);
     };
 

@@ -3,8 +3,8 @@ import './login.css';
 import { Field } from 'redux-form';
 import textField from './../textField/index';
 
-export const validate = values => {
-    const errors = {};
+export const validate = (values: any) => {
+    const errors: any = {};
 
     if (!values.username) {
         errors.username = 'Required';
@@ -25,8 +25,8 @@ export const validate = values => {
     return errors;
 };
 
-const Login = (props) => {
-    const onSubmit = (values) => {
+const Login = (props: any) => {
+    const onSubmit = (values: any) => {
         props.login(values);
     };
 
