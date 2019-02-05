@@ -1,7 +1,7 @@
 import React from 'react';
-import './login.css';
 import { Field } from 'redux-form';
 import textField from './../textField/index';
+import './login.css';
 
 export const validate = (values: any) => {
     const errors: any = {};
@@ -34,24 +34,24 @@ const Login = (props: any) => {
         <form onSubmit={props.handleSubmit(onSubmit)}>
             <div>
                 <Field
-                    name="username"
+                    name='username'
                     component={textField}
-                    type="text"
-                    label="Username"
+                    type='text'
+                    label='Username'
                 />
             </div>
             <div>
                 <Field
-                    name="password"
+                    name='password'
                     component={textField}
-                    type="password"
-                    label="Password"
+                    type='password'
+                    label='Password'
                 />
             </div>
-            <input type="submit" value="Send" disabled={props.pristine || props.submitting || props.invalid} />
+            <input type='submit' value='Send' disabled={props.pristine || props.submitting || props.invalid} />
             <div>Token: {props.token}</div>
         </form>
-    )
+    );
 };
 
 export default Login;

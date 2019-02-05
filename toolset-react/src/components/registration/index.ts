@@ -1,19 +1,19 @@
-import Registration, { validate, warn } from './registration';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { reduxForm } from 'redux-form';
-import { connect } from 'react-redux';
 import { registration } from './../../actions/userActions';
+import Registration, { validate, warn } from './registration';
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
         registration(user: any) {
             dispatch(registration(user));
-        }
-    }
-}
+        },
+    };
+};
 
 export default withRouter(reduxForm<any, any>({
     form: 'registration',
     validate,
-    warn
+    warn,
 })(connect(null, mapDispatchToProps)(Registration)));

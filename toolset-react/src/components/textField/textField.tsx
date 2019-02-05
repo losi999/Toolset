@@ -3,15 +3,15 @@ import './textField.css';
 
 const validationError = ({ touched, error }: any) => {
     if (touched && error) {
-        return (<span className="error">{error}</span>)
+        return (<span className='error'>{error}</span>);
     }
-}
+};
 
 const validationWarning = ({ touched, error, warning }: any) => {
     if (touched && !error && warning) {
-        return (<span className="warning">{warning}</span>)
+        return (<span className='warning'>{warning}</span>);
     }
-}
+};
 
 const textField = ({ label, input, type, meta }: any) => {
     return (
@@ -22,6 +22,6 @@ const textField = ({ label, input, type, meta }: any) => {
             {validationWarning(meta)}
         </label>
     );
-}
+};
 
 export default textField;

@@ -1,7 +1,7 @@
 import React from 'react';
-import './registration.css';
 import { Field } from 'redux-form';
 import textField from '../textField/index';
+import './registration.css';
 
 export const validate = (values: any) => {
     const errors: any = {};
@@ -68,39 +68,39 @@ const Registration = (props: any) => {
         <form onSubmit={props.handleSubmit(onSubmit)}>
             <div>
                 <Field
-                    name="username"
+                    name='username'
                     component={textField}
-                    type="text"
-                    label="Username"
+                    type='text'
+                    label='Username'
                 />
             </div>
             <div>
                 <Field
-                    name="password"
+                    name='password'
                     component={textField}
-                    type="password"
-                    label="Password"
+                    type='password'
+                    label='Password'
                 />
             </div>
             <div>
                 <Field
-                    name="passwordConfirm"
+                    name='passwordConfirm'
                     component={textField}
-                    type="password"
-                    label="Password confirm"
+                    type='password'
+                    label='Password confirm'
                 />
             </div>
             <div>
                 <Field
-                    name="displayName"
+                    name='displayName'
                     component={textField}
-                    type="text"
-                    label="Display name"
+                    type='text'
+                    label='Display name'
                 />
             </div>
-            <input type="submit" value="Send" disabled={props.pristine || props.submitting || props.invalid} />
+            <input type='submit' value='Send' disabled={props.pristine || props.submitting || props.invalid} />
         </form>
-    )
+    );
 };
 
 export default Registration;
