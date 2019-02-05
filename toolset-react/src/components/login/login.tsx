@@ -49,6 +49,7 @@ const Login = (props: any) => {
                 />
             </div>
             <input type="submit" value="Send" disabled={props.pristine || props.submitting || props.invalid} />
+            <div>Token: {props.token}</div>
         </form>
     )
 };
