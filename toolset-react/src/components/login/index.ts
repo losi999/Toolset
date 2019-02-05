@@ -12,7 +12,7 @@ const mapDispatchToProps = (dispatch: any) => {
     }
 }
 
-export default withRouter(reduxForm({
+export default withRouter(reduxForm<any, any>({
     form: 'login',
     validate
 })(connect(null, mapDispatchToProps)(Login)));
