@@ -1,4 +1,3 @@
-import IRequest from "../models/types/IRequest";
 import LoginRequest from "../models/DTOs/loginRequest";
 import RegistrationRequest from "../models/DTOs/registrationRequest";
 import bcrypt from 'bcryptjs';
@@ -6,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import { IUnitOfWork } from "../interfaces";
 import { inject, injectable } from "inversify";
 import { LoginResponse, OkResponse, BadRequestResponse } from '../models/types/controllerResponse';
+import { Request } from 'express';
 
 
 @injectable()
@@ -13,8 +13,10 @@ export default class UsersController {
     constructor(@inject('unitOfWork') private unitOfWork: IUnitOfWork) { }
 
     public login() {
-        return async (req: IRequest<LoginRequest>): Promise<LoginResponse | BadRequestResponse> => {
-            if (!req.body.username || !req.body.password) {
+        return async (req: Request): Promise<LoginResponse | BadRequestResponse> => {
+            const body = req.body as LoginRequest;
+
+            if (!body.username || !body.password) {
                 return {
                     statusCode: 400,
                     body: {
@@ -23,7 +25,7 @@ export default class UsersController {
                 };
             }
 
-            const user = await this.unitOfWork.user.getUserByUsername(req.body.username);
+            const user = await this.unitOfWork.user.getUserByUsername(body.username);
             if (!user) {
                 return {
                     statusCode: 400,
@@ -33,7 +35,7 @@ export default class UsersController {
                 };
             }
 
-            if (!bcrypt.compareSync(req.body.password, user.password)) {
+            if (!bcrypt.compareSync(body.password, user.password)) {
                 return {
                     statusCode: 400,
                     body: {
@@ -62,8 +64,10 @@ export default class UsersController {
 
 
     public registration() {
-        return async (req: IRequest<RegistrationRequest>): Promise<OkResponse | BadRequestResponse> => {
-            if (!req.body.username || !req.body.password || !req.body.displayName) {
+        return async (req: Request): Promise<OkResponse | BadRequestResponse> => {
+            const body = req.body as RegistrationRequest;
+
+            if (!body.username || !body.password || !body.displayName) {
                 return {
                     statusCode: 400,
                     body: {
@@ -76,7 +80,7 @@ export default class UsersController {
                 await this.unitOfWork.user.createUser({
                     ...req.body,
                     role: 'user',
-                    password: bcrypt.hashSync(req.body.password)
+                    password: bcrypt.hashSync(body.password)
                 });
             } catch (error) {
                 return {
@@ -94,7 +98,7 @@ export default class UsersController {
     }
 
     public profile() {
-        return async (req: IRequest<RegistrationRequest>): Promise<any> => {
+        return async (req: Request): Promise<any> => {
 
             return {
                 statusCode: 200

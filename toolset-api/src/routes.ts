@@ -1,20 +1,14 @@
 import { Application, Request, Response, NextFunction } from "express";
-import IRequest from "./models/types/IRequest";
 import UsersController from "./controllers/usersController";
 import { injectable } from "inversify";
 import { ControllerResponse } from './models/types/controllerResponse';
 import AuthController from './controllers/authController';
 
 
-const controllerToRoute = <T>(controllerAction: (request: IRequest<T>) => Promise<ControllerResponse | void>) => {
+const controllerToRoute = (controllerAction: (request: Request) => Promise<ControllerResponse | void>) => {
     return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
-            const resp = await controllerAction({
-                body: req.body,
-                params: req.params,
-                query: req.query,
-                headers: req.headers
-            });
+            const resp = await controllerAction(req);
             if (resp) {
                 res.status(resp.statusCode).send(resp.body);
             } else {
