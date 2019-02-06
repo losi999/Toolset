@@ -1,38 +1,44 @@
 import IRequest from "../models/types/IRequest";
-import IResponse from "../models/types/IResponse";
 import LoginRequest from "../models/DTOs/loginRequest";
-import LoginResponse from "../models/DTOs/loginResponse";
 import RegistrationRequest from "../models/DTOs/registrationRequest";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { IUnitOfWork } from "../interfaces";
 import { inject, injectable } from "inversify";
+import { LoginResponse, OkResponse, BadRequestResponse } from '../models/types/controllerResponse';
+
 
 @injectable()
 export default class UsersController {
     constructor(@inject('unitOfWork') private unitOfWork: IUnitOfWork) { }
 
     public login() {
-        return async (req: IRequest<LoginRequest>): Promise<IResponse<LoginResponse>> => {
+        return async (req: IRequest<LoginRequest>): Promise<LoginResponse | BadRequestResponse> => {
             if (!req.body.username || !req.body.password) {
-                throw {
-                    status: 400,
-                    message: 'Invalid request body'
+                return {
+                    statusCode: 400,
+                    body: {
+                        error: 'Invalid request body'
+                    }
                 };
             }
 
             const user = await this.unitOfWork.user.getUserByUsername(req.body.username);
             if (!user) {
-                throw {
-                    status: 400,
-                    message: 'User doesn\'t exist'
+                return {
+                    statusCode: 400,
+                    body: {
+                        error: 'User doesn\'t exist'
+                    }
                 };
             }
 
             if (!bcrypt.compareSync(req.body.password, user.password)) {
-                throw {
-                    status: 400,
-                    message: 'Invalid login'
+                return {
+                    statusCode: 400,
+                    body: {
+                        error: 'Invalid login'
+                    }
                 };
             }
 
@@ -49,17 +55,20 @@ export default class UsersController {
                 body: {
                     token
                 },
-                status: 200
+                statusCode: 200
             };
         };
     }
 
 
     public registration() {
-        return async (req: IRequest<RegistrationRequest>): Promise<IResponse<void | any>> => {
+        return async (req: IRequest<RegistrationRequest>): Promise<OkResponse | BadRequestResponse> => {
             if (!req.body.username || !req.body.password || !req.body.displayName) {
                 return {
-                    status: 400
+                    statusCode: 400,
+                    body: {
+                        error: 'Invalid request body'
+                    }
                 };
             }
             try {
@@ -71,21 +80,24 @@ export default class UsersController {
                 });
             } catch (error) {
                 return {
-                    status: 400
+                    statusCode: 400,
+                    body: {
+                        error: 'Username already exists'
+                    }
                 };
             }
 
             return {
-                status: 200
+                statusCode: 200
             };
         };
     }
 
     public profile() {
-        return async (req: IRequest<RegistrationRequest>): Promise<IResponse<void | any>> => {
+        return async (req: IRequest<RegistrationRequest>): Promise<any> => {
 
             return {
-                status: 200
+                statusCode: 200
             }
         };
     }

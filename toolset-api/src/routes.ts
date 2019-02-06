@@ -1,21 +1,26 @@
-import { Application, Request, Response } from "express";
+import { Application, Request, Response, NextFunction } from "express";
 import IRequest from "./models/types/IRequest";
-import IResponse from "./models/types/IResponse";
 import UsersController from "./controllers/usersController";
-import authorize from './middlewares/authorize';
 import { injectable } from "inversify";
+import { ControllerResponse } from './models/types/controllerResponse';
+import AuthController from './controllers/authController';
 
 
-const controllerToRoute = <T, U>(controllerAction: (request: IRequest<T>) => Promise<IResponse<U>>) => {
-    return async (req: Request, res: Response): Promise<void> => {
+const controllerToRoute = <T>(controllerAction: (request: IRequest<T>) => Promise<ControllerResponse | void>) => {
+    return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
-            const { status, body } = await controllerAction({
+            const resp = await controllerAction({
                 body: req.body,
                 params: req.params,
                 query: req.query,
+                headers: req.headers
             });
+            if (resp) {
+                res.status(resp.statusCode).send(resp.body);
+            } else {
+                next();
+            }
 
-            res.status(status).send(body);
         } catch (error) {
             console.error('unexpected error', error);
             res.status(error.status || 500).send(error.message);
@@ -25,7 +30,8 @@ const controllerToRoute = <T, U>(controllerAction: (request: IRequest<T>) => Pro
 
 @injectable()
 export default class Routes {
-    constructor(private usersController: UsersController) { }
+    constructor(private usersController: UsersController,
+        private authController: AuthController) { }
 
     public async setup(app: Application) {
         app.route('/login')
@@ -35,7 +41,7 @@ export default class Routes {
             .post(controllerToRoute(this.usersController.registration()));
 
         app.route('/profile')
-            .get(authorize('user'),
+            .get(controllerToRoute(this.authController.authorize('user')),
                 controllerToRoute(this.usersController.profile()));
     }
 }
