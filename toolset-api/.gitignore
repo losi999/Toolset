@@ -2,5 +2,6 @@ node_modules
 .env
 dist
 build
+typedoc
 .vscode/*
 !.vscode/launch.json

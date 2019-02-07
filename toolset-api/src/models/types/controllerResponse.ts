@@ -1,3 +1,12 @@
+import { IncomingHttpHeaders } from 'http';
+
+export interface ControllerRequest<B, P = undefined, Q = undefined, H = IncomingHttpHeaders> {
+    body: B;
+    params: P;
+    query: Q;
+    headers: H;
+}
+
 export interface ControllerResponse {
     statusCode: number;
     body?: any;
@@ -24,12 +33,4 @@ export interface UnauthorizedResponse extends ControllerResponse {
 export interface ForbiddenResponse extends ControllerResponse {
     statusCode: 403;
     body: ErrorResponseBody;
-}
-
-interface LoginResponseBody {
-    token: string;
-}
-
-export interface LoginResponse extends OkResponse {
-    body: LoginResponseBody;
 }

@@ -1,13 +1,13 @@
 import { injectable } from 'inversify';
-import { UnauthorizedResponse, ForbiddenResponse } from '../models/types/controllerResponse';
+import { UnauthorizedResponse, ForbiddenResponse, ControllerRequest } from '../models/types/controllerResponse';
 import jwt from 'jsonwebtoken';
 
 
 
 @injectable()
 export default class AuthController {
-    public authorize(...roles: string[]) {
-        return async (req: any): Promise<UnauthorizedResponse | ForbiddenResponse | void> => {
+    public authorize(...roles: string[]): (req: ControllerRequest<undefined>) => Promise<UnauthorizedResponse | ForbiddenResponse | void> {
+        return async (req) => {
             const token = req.headers.authorization;
             if (!token) {
                 return {
