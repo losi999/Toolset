@@ -1,10 +1,11 @@
 import React from 'react';
-import { Field } from 'redux-form';
+import { Field, FormSubmitHandler, FormErrors, FormWarnings } from 'redux-form';
 import textField from '../textField/index';
 import './registration.css';
+import { RegistrationProps, RegistrationForm } from './propTypes';
 
-export const validate = (values: any) => {
-    const errors: any = {};
+export const validate = (values: RegistrationForm): FormErrors<RegistrationForm> => {
+    const errors: FormErrors<RegistrationForm> = {};
 
     if (!values.username) {
         errors.username = 'Required';
@@ -41,8 +42,8 @@ export const validate = (values: any) => {
     return errors;
 };
 
-export const warn = (values: any) => {
-    const warnings: any = {};
+export const warn = (values: RegistrationForm): FormWarnings<RegistrationForm> => {
+    const warnings: FormWarnings<RegistrationForm> = {};
 
     if (values.username && values.username.length < 6) {
         warnings.username = 'Username should be at least 6 characters long';
@@ -55,12 +56,12 @@ export const warn = (values: any) => {
     if (values.passwordConfirm && values.passwordConfirm.length < 6) {
         warnings.passwordConfirm = 'Password should be at least 6 characters long';
     }
-
+    
     return warnings;
 };
 
-const Registration = (props: any) => {
-    const onSubmit = (values: any) => {
+const Registration: React.FC<RegistrationProps> = (props) => {
+    const onSubmit: FormSubmitHandler<RegistrationForm> = (values) => {
         props.registration(values);
     };
 

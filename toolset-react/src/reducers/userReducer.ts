@@ -1,24 +1,27 @@
 import { UserAction } from '../actions/userActions';
 
 export interface UserState {
-  token?: string;
-  result?: string;
-  error?: any;
+  token: string;
+  error: string;
 }
 
-const userReducer = (state: UserState = {}, action: UserAction): UserState => {
+const initialState: UserState = {
+  token: '',
+  error: ''
+};
+
+const userReducer = (state: UserState = initialState, action: UserAction): UserState => {
   switch (action.type) {
     case 'LOGIN_FAILED':
       break;
     case 'REGISTRATION_SUCCEEDED':
       return {
-        ...state,
-        result: action.payload,
+        ...state
       };
     case 'REGISTRATION_FAILED':
       return {
         ...state,
-        error: action.payload,
+        error: action.payload.error,
       };
     case 'LOGIN_SUCCEEDED':
       return {
@@ -28,7 +31,7 @@ const userReducer = (state: UserState = {}, action: UserAction): UserState => {
     case 'LOGIN_FAILED':
       return {
         ...state,
-        error: action.payload,
+        error: action.payload.error,
       };
   }
 

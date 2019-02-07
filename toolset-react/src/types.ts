@@ -12,3 +12,7 @@ export interface RegistrationRequest {
     password: string;
     displayName: string;
 }
+
+export interface ErrorResponse {
+    error: string;
+}

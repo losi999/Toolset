@@ -1,10 +1,11 @@
 import React from 'react';
-import { Field } from 'redux-form';
+import { Field, FormSubmitHandler, FormErrors } from 'redux-form';
 import textField from './../textField/index';
 import './login.css';
+import { LoginProps, LoginForm } from './propTypes';
 
-export const validate = (values: any) => {
-    const errors: any = {};
+export const validate = (values: LoginForm): FormErrors<LoginForm> => {
+    const errors: FormErrors<LoginForm> = {};
 
     if (!values.username) {
         errors.username = 'Required';
@@ -25,8 +26,8 @@ export const validate = (values: any) => {
     return errors;
 };
 
-const Login = (props: any) => {
-    const onSubmit = (values: any) => {
+const Login: React.FC<LoginProps> = (props) => {
+    const onSubmit: FormSubmitHandler<LoginForm> = (values) => {
         props.login(values);
     };
 

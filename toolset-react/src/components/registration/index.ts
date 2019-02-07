@@ -1,19 +1,24 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { reduxForm } from 'redux-form';
-import { registration } from './../../actions/userActions';
+import { registration, UserAction } from './../../actions/userActions';
 import Registration, { validate, warn } from './registration';
+import { RegistrationDispatchProps, RegistrationForm } from './propTypes';
+import { UserState } from '../../reducers/userReducer';
+import { ThunkDispatch } from 'redux-thunk';
+import { RegistrationRequest } from '../../types';
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<UserState, undefined, UserAction>): RegistrationDispatchProps => {
     return {
-        registration(user: any) {
+        registration(user: RegistrationRequest) {
             dispatch(registration(user));
         },
     };
 };
 
-export default withRouter(reduxForm<any, any>({
+export default connect<{}, RegistrationDispatchProps>(null, mapDispatchToProps)(
+    reduxForm<RegistrationForm, RegistrationDispatchProps>({
     form: 'registration',
     validate,
     warn,
-})(connect(null, mapDispatchToProps)(Registration)));
+})(Registration));
