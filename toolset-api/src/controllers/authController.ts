@@ -1,6 +1,7 @@
 import { injectable } from 'inversify';
 import jwt from 'jsonwebtoken';
-import { ControllerRequest, ForbiddenResponse, UnauthorizedResponse } from '../models/types/controllerResponse';
+import { ForbiddenResponse, UnauthorizedResponse } from '../models/types/controllerResponses';
+import { ControllerRequest } from '../models/types/controllerRequest';
 
 @injectable()
 export default class AuthController {

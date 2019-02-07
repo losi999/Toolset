@@ -6,7 +6,8 @@ import { IUnitOfWork } from '../interfaces';
 import LoginRequest from '../models/DTOs/loginRequest';
 import LoginResponse from '../models/DTOs/loginResponse';
 import RegistrationRequest from '../models/DTOs/registrationRequest';
-import { BadRequestResponse, ControllerRequest, OkResponse } from '../models/types/controllerResponse';
+import { BadRequestResponse, OkResponse } from '../models/types/controllerResponses';
+import { ControllerRequest } from '../models/types/controllerRequest';
 
 @injectable()
 export default class UsersController {
