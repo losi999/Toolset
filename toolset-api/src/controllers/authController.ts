@@ -1,8 +1,6 @@
 import { injectable } from 'inversify';
-import { UnauthorizedResponse, ForbiddenResponse, ControllerRequest } from '../models/types/controllerResponse';
 import jwt from 'jsonwebtoken';
-
-
+import { ControllerRequest, ForbiddenResponse, UnauthorizedResponse } from '../models/types/controllerResponse';
 
 @injectable()
 export default class AuthController {
@@ -13,8 +11,8 @@ export default class AuthController {
                 return {
                     statusCode: 401,
                     body: {
-                        error: 'Missing token'
-                    }
+                        error: 'Missing token',
+                    },
                 };
             }
             try {
@@ -23,18 +21,18 @@ export default class AuthController {
                     return {
                         statusCode: 403,
                         body: {
-                            error: 'Forbidden'
-                        }
+                            error: 'Forbidden',
+                        },
                     };
                 }
             } catch (error) {
                 return {
                     statusCode: 401,
                     body: {
-                        error: 'Invalid or expired token'
-                    }
+                        error: 'Invalid or expired token',
+                    },
                 };
             }
-        }
+        };
     }
 }

@@ -1,5 +1,5 @@
-import { IUserRepository } from '../../../interfaces';
 import { Document, model, Schema } from 'mongoose';
+import { IUserRepository } from '../../../interfaces';
 import { User } from '../../../models/entities/user';
 
 interface UserDocument extends User, Document { }
@@ -9,7 +9,7 @@ const UserSchema = new Schema(
         username: {
             type: String,
             required: true,
-            unique: true
+            unique: true,
         },
         password: {
             type: String,
@@ -22,8 +22,8 @@ const UserSchema = new Schema(
         role: {
             type: String,
             required: true,
-            default: 'user'
-        }
+            default: 'user',
+        },
     },
     {
         toObject: {
@@ -32,7 +32,7 @@ const UserSchema = new Schema(
                     username: doc.username,
                     password: doc.password,
                     displayName: doc.displayName,
-                    role: doc.role
+                    role: doc.role,
                 };
             },
         },
@@ -42,12 +42,12 @@ const UserModel = model<UserDocument>('users', UserSchema);
 
 export default class UserRepository implements IUserRepository {
     public async createUser(user: User): Promise<void> {
-        await UserModel.create(user);  
+        await UserModel.create(user);
     }
 
     public getUserByUsername(username: string): Promise<User | null> {
         return UserModel.findOne({
-            username: username
+            username,
         }).exec();
     }
 }

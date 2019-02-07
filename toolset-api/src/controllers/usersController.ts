@@ -1,12 +1,12 @@
-import LoginRequest from "../models/DTOs/loginRequest";
-import RegistrationRequest from "../models/DTOs/registrationRequest";
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import { IUnitOfWork } from "../interfaces";
-import { inject, injectable } from "inversify";
-import { OkResponse, BadRequestResponse, ControllerRequest } from '../models/types/controllerResponse';
 import { Request } from 'express';
+import { inject, injectable } from 'inversify';
+import jwt from 'jsonwebtoken';
+import { IUnitOfWork } from '../interfaces';
+import LoginRequest from '../models/DTOs/loginRequest';
 import LoginResponse from '../models/DTOs/loginResponse';
+import RegistrationRequest from '../models/DTOs/registrationRequest';
+import { BadRequestResponse, ControllerRequest, OkResponse } from '../models/types/controllerResponse';
 
 @injectable()
 export default class UsersController {
@@ -18,8 +18,8 @@ export default class UsersController {
                 return {
                     statusCode: 400,
                     body: {
-                        error: 'Invalid request body'
-                    }
+                        error: 'Invalid request body',
+                    },
                 };
             }
 
@@ -28,8 +28,8 @@ export default class UsersController {
                 return {
                     statusCode: 400,
                     body: {
-                        error: 'User doesn\'t exist'
-                    }
+                        error: 'User doesn\'t exist',
+                    },
                 };
             }
 
@@ -37,29 +37,28 @@ export default class UsersController {
                 return {
                     statusCode: 400,
                     body: {
-                        error: 'Invalid login'
-                    }
+                        error: 'Invalid login',
+                    },
                 };
             }
 
             const claims = {
                 username: user.username,
                 displayName: user.displayName,
-                role: user.role
+                role: user.role,
             };
             const token = jwt.sign(claims, process.env.JWT_SECRET || '', {
-                expiresIn: 60 * 60 * 24
+                expiresIn: 60 * 60 * 24,
             });
 
             return {
                 body: {
-                    token
+                    token,
                 },
-                statusCode: 200
+                statusCode: 200,
             };
         };
     }
-
 
     public registration(): (req: ControllerRequest<RegistrationRequest>) => Promise<OkResponse | BadRequestResponse> {
         return async (req) => {
@@ -67,37 +66,37 @@ export default class UsersController {
                 return {
                     statusCode: 400,
                     body: {
-                        error: 'Invalid request body'
-                    }
+                        error: 'Invalid request body',
+                    },
                 };
             }
             try {
                 await this.unitOfWork.user.createUser({
                     ...req.body,
                     role: 'user',
-                    password: bcrypt.hashSync(req.body.password)
+                    password: bcrypt.hashSync(req.body.password),
                 });
             } catch (error) {
                 return {
                     statusCode: 400,
                     body: {
-                        error: 'Username already exists'
-                    }
+                        error: 'Username already exists',
+                    },
                 };
             }
 
             return {
-                statusCode: 200
+                statusCode: 200,
             };
         };
     }
 
-    public profile() {
-        return async (req: Request): Promise<any> => {
+    public profile(): (req: Request) => Promise<any> {
+        return async (req) => {
 
             return {
-                statusCode: 200
-            }
+                statusCode: 200,
+            };
         };
     }
 }

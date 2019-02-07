@@ -1,9 +1,8 @@
-import { Application, Request, Response, NextFunction } from "express";
-import UsersController from "./controllers/usersController";
-import { injectable } from "inversify";
-import { ControllerResponse } from './models/types/controllerResponse';
+import { Application, NextFunction, Request, Response } from 'express';
+import { injectable } from 'inversify';
 import AuthController from './controllers/authController';
-
+import UsersController from './controllers/usersController';
+import { ControllerResponse } from './models/types/controllerResponse';
 
 const controllerToRoute = (controllerAction: (request: Request) => Promise<ControllerResponse | void>) => {
     return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -24,10 +23,11 @@ const controllerToRoute = (controllerAction: (request: Request) => Promise<Contr
 
 @injectable()
 export default class Routes {
-    constructor(private usersController: UsersController,
+    constructor(
+        private usersController: UsersController,
         private authController: AuthController) { }
 
-    public async setup(app: Application) {
+    public setup(app: Application): void {
         app.route('/login')
             .post(controllerToRoute(this.usersController.login()));
 

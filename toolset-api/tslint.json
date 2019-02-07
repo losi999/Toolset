@@ -7,6 +7,14 @@
         "quotemark": [
             true,
             "single"
+        ],
+        "ordered-imports": false,
+        "max-line-length": false,
+        "typedef": [
+            true,
+            "call-signature",
+            "parameter",
+            "property-declaration"
         ]
     }
 }

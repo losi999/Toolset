@@ -1,8 +1,8 @@
-import express from 'express';
-import Routes from './routes';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import { injectable, inject } from 'inversify';
+import express from 'express';
+import { inject, injectable } from 'inversify';
+import Routes from './routes';
 
 @injectable()
 export default class App {
@@ -15,7 +15,7 @@ export default class App {
         this.routes.setup(this.app);
     }
 
-    private config() {
+    private config(): void {
         this.app.use(bodyParser.json());
         this.app.use(cors());
     }

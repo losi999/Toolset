@@ -1,21 +1,20 @@
-import mongoose from 'mongoose';
-import { IUnitOfWork, IUserRepository } from "../../interfaces";
-import UserRepository from './repositories/userRepository';
 import { injectable } from 'inversify';
+import mongoose from 'mongoose';
+import { IUnitOfWork, IUserRepository } from '../../interfaces';
+import UserRepository from './repositories/userRepository';
 
 @injectable()
 export default class UnitOfWork implements IUnitOfWork {
-    user: IUserRepository;
+    public user: IUserRepository;
 
     constructor() {
         mongoose.connect(`${process.env.MONGO_URL}/${process.env.MONGO_DATABASE}`, {
             useCreateIndex: true,
-            useNewUrlParser: true
+            useNewUrlParser: true,
         }, (error) => {
             if (error) {
                 console.error(error);
-            }
-            else {
+            } else {
                 console.log(`MongoDB connected: ${process.env.MONGO_URL}/${process.env.MONGO_DATABASE}`);
             }
         });

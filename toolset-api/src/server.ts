@@ -1,7 +1,7 @@
+import dotenv from 'dotenv';
 import 'reflect-metadata';
 import App from './app';
 import container from './inversify.config';
-import dotenv from 'dotenv';
 
 dotenv.config();
 const port = process.env.PORT;
