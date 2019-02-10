@@ -1,15 +1,18 @@
 import { RegistrationRequest } from '../../types';
 import { InjectedFormProps } from 'redux-form';
 
-export interface RegistrationDispatchProps {
+export type RegistrationStateProps = {};
+
+export type RegistrationDispatchProps = {
     registration(user: RegistrationRequest): void;
 }
 
-export interface RegistrationForm {
+export type RegistrationForm = {
     username: string;
     password: string;
     passwordConfirm: string;
     displayName: string;
 }
+export type RegistrationProps = RegistrationStateProps & RegistrationDispatchProps;
 
-export type RegistrationProps = RegistrationDispatchProps & InjectedFormProps<RegistrationForm, RegistrationDispatchProps>;
+export type RegistrationComponentProps = RegistrationProps & InjectedFormProps<RegistrationForm, RegistrationProps>;

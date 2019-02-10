@@ -2,7 +2,7 @@ import React from 'react';
 import { Field, FormSubmitHandler, FormErrors } from 'redux-form';
 import textField from './../textField/index';
 import './login.css';
-import { LoginProps, LoginForm } from './propTypes';
+import { LoginComponentProps, LoginForm } from './propTypes';
 
 export const validate = (values: LoginForm): FormErrors<LoginForm> => {
     const errors: FormErrors<LoginForm> = {};
@@ -26,7 +26,7 @@ export const validate = (values: LoginForm): FormErrors<LoginForm> => {
     return errors;
 };
 
-const Login: React.FC<LoginProps> = (props) => {
+const Login: React.FC<LoginComponentProps> = (props) => {
     const onSubmit: FormSubmitHandler<LoginForm> = (values) => {
         props.login(values);
     };

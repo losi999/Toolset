@@ -2,7 +2,7 @@ import React from 'react';
 import { Field, FormSubmitHandler, FormErrors, FormWarnings } from 'redux-form';
 import textField from '../textField/index';
 import './registration.css';
-import { RegistrationProps, RegistrationForm } from './propTypes';
+import { RegistrationComponentProps, RegistrationForm } from './propTypes';
 
 export const validate = (values: RegistrationForm): FormErrors<RegistrationForm> => {
     const errors: FormErrors<RegistrationForm> = {};
@@ -60,7 +60,7 @@ export const warn = (values: RegistrationForm): FormWarnings<RegistrationForm> =
     return warnings;
 };
 
-const Registration: React.FC<RegistrationProps> = (props) => {
+const Registration: React.FC<RegistrationComponentProps> = (props) => {
     const onSubmit: FormSubmitHandler<RegistrationForm> = (values) => {
         props.registration(values);
     };

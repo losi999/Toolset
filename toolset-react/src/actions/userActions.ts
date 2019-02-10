@@ -1,27 +1,27 @@
 import { Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { UserState } from '../reducers/userReducer';
 import { LoginRequest, LoginResponse, RegistrationRequest, ErrorResponse } from '../types';
 import userService from './../services/userService';
+import { Store } from '../store';
 
-interface RegistrationRequested {
+type RegistrationRequested = {
     type: 'REGISTRATION_REQUESTED';
 }
-interface RegistrationSucceeded {
+type RegistrationSucceeded = {
     type: 'REGISTRATION_SUCCEEDED';
 }
-interface RegistrationFailed {
+type RegistrationFailed = {
     type: 'REGISTRATION_FAILED';
     payload: ErrorResponse;
 }
-interface LoginRequested {
+type LoginRequested = {
     type: 'LOGIN_REQUESTED';
 }
-interface LoginSucceeded {
+type LoginSucceeded = {
     type: 'LOGIN_SUCCEEDED';
     payload: string;
 }
-interface LoginFailed {
+type LoginFailed = {
     type: 'LOGIN_FAILED';
     payload: ErrorResponse;
 }
@@ -49,7 +49,7 @@ const registrationFailed = (error: ErrorResponse): RegistrationFailed => {
     };
 };
 
-export const registration = (user: RegistrationRequest): ThunkAction<void, UserState, undefined, RegistrationAction> => {
+export const registration = (user: RegistrationRequest): ThunkAction<void, Store, undefined, RegistrationAction> => {
     return async (dispatch) => {
         dispatch(registrationRequested());
 
@@ -82,7 +82,7 @@ const loginFailed = (error: ErrorResponse): LoginFailed => {
     };
 };
 
-export const login = (user: LoginRequest): ThunkAction<void, UserState, undefined, LoginAction> => {
+export const login = (user: LoginRequest): ThunkAction<void, Store, undefined, LoginAction> => {
     return async (dispatch: Dispatch) => {
         dispatch(loginRequested());
 

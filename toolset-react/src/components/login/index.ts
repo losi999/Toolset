@@ -1,14 +1,13 @@
-import { connect, MapStateToPropsParam } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { UserState } from '../../reducers/userReducer';
 import { LoginRequest } from '../../types';
 import { login, UserAction } from './../../actions/userActions';
 import Login, { validate } from './login';
 import { ThunkDispatch } from 'redux-thunk';
-import { LoginDispatchProps, LoginStateProps, LoginForm } from './propTypes';
+import { LoginDispatchProps, LoginStateProps, LoginForm, LoginProps } from './propTypes';
+import { Store } from '../../store';
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<UserState, undefined, UserAction>): LoginDispatchProps => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<Store, undefined, UserAction>): LoginDispatchProps => {
     return {
         login(user: LoginRequest) {
             dispatch(login(user));
@@ -16,13 +15,14 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<UserState, undefined, UserAc
     };
 };
 
-const mapStateToProps = (state: { user: UserState }): LoginStateProps => {
+const mapStateToProps = (state: Store): LoginStateProps => {
     return {
         token: state.user.token
     };
 };
 
-export default connect<LoginStateProps, LoginDispatchProps, {}, { user: UserState }>(mapStateToProps, mapDispatchToProps)(reduxForm<LoginForm, LoginStateProps & LoginDispatchProps>({
-    form: 'login',
-    validate
-})(Login));
+export default connect<LoginStateProps, LoginDispatchProps, {}, Store>(mapStateToProps, mapDispatchToProps)(
+    reduxForm<LoginForm, LoginProps>({
+        form: 'login',
+        validate
+    })(Login));

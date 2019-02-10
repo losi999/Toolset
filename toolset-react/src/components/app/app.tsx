@@ -5,7 +5,7 @@ import NavigationBar from './../navigationBar/index';
 import Registration from './../registration/index';
 import './app.css';
 
-const App = () => {
+const App: React.FC<{}> = () => {
   return (
     <div className='app'>
       <NavigationBar></NavigationBar>

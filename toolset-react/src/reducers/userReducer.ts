@@ -1,6 +1,6 @@
 import { UserAction } from '../actions/userActions';
 
-export interface UserState {
+export type UserState = {
   token: string;
   error: string;
 }

@@ -1,17 +1,18 @@
 import { LoginRequest } from '../../types';
 import { InjectedFormProps } from 'redux-form';
 
-export interface LoginDispatchProps {
+export type LoginDispatchProps = {
     login(user: LoginRequest): void;
 }
 
-export interface LoginStateProps {
+export type LoginStateProps = {
     token: string;
 }
 
-export interface LoginForm {
+export type LoginForm = {
     username: string;
     password: string;
 }
+export type LoginProps = LoginDispatchProps & LoginStateProps;
 
-export type LoginProps = LoginDispatchProps & LoginStateProps & InjectedFormProps<LoginForm, LoginDispatchProps & LoginStateProps>;
+export type LoginComponentProps = LoginProps & InjectedFormProps<LoginForm, LoginProps>;
