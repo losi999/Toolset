@@ -1,16 +1,13 @@
 import React from 'react';
 import './textField.css';
+import { WrappedFieldMetaProps } from 'redux-form';
 
-const validationError = ({ touched, error }: any) => {
-    if (touched && error) {
-        return (<span className='error'>{error}</span>);
-    }
+const validationError: React.FC<WrappedFieldMetaProps> = ({ touched, error }) => {
+    return (touched && error) ? (<span className='error'>{error}</span>) : null;
 };
 
-const validationWarning = ({ touched, error, warning }: any) => {
-    if (touched && !error && warning) {
-        return (<span className='warning'>{warning}</span>);
-    }
+const validationWarning: React.FC<WrappedFieldMetaProps> = ({ touched, error, warning }) => {
+    return (touched && !error && warning) ? (<span className='warning'>{warning}</span>) : null;
 };
 
 const textField = ({ label, input, type, meta }: any) => {
