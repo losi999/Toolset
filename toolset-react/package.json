@@ -19,7 +19,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "covtest": "react-scripts test --coverage",
+    "covtest": "driveup && react-scripts test --coverage",
     "eject": "react-scripts eject",
     "lint": "tslint -c tslint.json src/**/*.{ts,tsx}"
   },
@@ -48,7 +48,8 @@
     "enzyme-to-json": "^3.3.5",
     "redux-devtools-extension": "^2.13.8",
     "tslint": "^5.12.1",
-    "tslint-react": "^3.6.0"
+    "tslint-react": "^3.6.0",
+    "driveup": "1.0.1"
   },
   "jest": {
     "snapshotSerializers": [
@@ -63,5 +64,8 @@
       "!**/node_modules/**",
       "!**/vendor/**"
     ]
+  },
+  "babel": {
+    "retainLines": true
   }
 }
