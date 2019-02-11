@@ -7,6 +7,7 @@
         "quotemark": [
             true,
             "single"
-        ]
+        ],
+        "interface-over-type-literal": false
     }
 }

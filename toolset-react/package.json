@@ -19,6 +19,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "covtest": "react-scripts test --coverage",
     "eject": "react-scripts eject",
     "lint": "tslint -c tslint.json src/**/*.{ts,tsx}"
   },
@@ -32,6 +33,8 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@types/enzyme": "^3.1.17",
+    "@types/enzyme-adapter-react-16": "^1.0.3",
     "@types/jest": "24.0.0",
     "@types/node": "10.12.21",
     "@types/react": "16.8.1",
@@ -40,8 +43,25 @@
     "@types/react-router-dom": "^4.3.1",
     "@types/redux-form": "^7.4.16",
     "@types/redux-logger": "^3.0.6",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.9.1",
+    "enzyme-to-json": "^3.3.5",
     "redux-devtools-extension": "^2.13.8",
     "tslint": "^5.12.1",
     "tslint-react": "^3.6.0"
+  },
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json"
+    ],
+    "coverageReporters": [
+      "html"
+    ],
+    "collectCoverageFrom": [
+      "**/*.{ts,tsx}",
+      "!**/src/**/index.ts",
+      "!**/node_modules/**",
+      "!**/vendor/**"
+    ]
   }
 }
