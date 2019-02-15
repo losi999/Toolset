@@ -8,10 +8,10 @@ jobs:
     working_directory: ~/repo
 
     steps:
-      - 'cd toolset-api'
-      - npm install
-      - npm test
-      # - checkout
+      - checkout
+      - run: cd toolset-api 
+      - run: npm install
+      - run: npm test
 
       # # Download and cache dependencies
       # - restore_cache:
