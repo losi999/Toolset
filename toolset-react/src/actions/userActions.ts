@@ -1,30 +1,30 @@
 import { Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { LoginRequest, LoginResponse, RegistrationRequest, ErrorResponse } from '../types';
-import userService from './../services/userService';
 import { Store } from '../store';
+import { ErrorResponse, LoginRequest, LoginResponse, RegistrationRequest } from '../types';
+import userService from './../services/userService';
 
 type RegistrationRequested = {
     type: 'REGISTRATION_REQUESTED';
-}
+};
 type RegistrationSucceeded = {
     type: 'REGISTRATION_SUCCEEDED';
-}
+};
 type RegistrationFailed = {
     type: 'REGISTRATION_FAILED';
     payload: ErrorResponse;
-}
+};
 type LoginRequested = {
     type: 'LOGIN_REQUESTED';
-}
+};
 type LoginSucceeded = {
     type: 'LOGIN_SUCCEEDED';
     payload: string;
-}
+};
 type LoginFailed = {
     type: 'LOGIN_FAILED';
     payload: ErrorResponse;
-}
+};
 
 type RegistrationAction = RegistrationRequested | RegistrationSucceeded | RegistrationFailed;
 type LoginAction = LoginRequested | LoginSucceeded | LoginFailed;
@@ -38,7 +38,7 @@ const registrationRequested = (): RegistrationRequested => {
 
 const registrationSucceeded = (): RegistrationSucceeded => {
     return {
-        type: 'REGISTRATION_SUCCEEDED'
+        type: 'REGISTRATION_SUCCEEDED',
     };
 };
 

@@ -1,26 +1,30 @@
 version: 2
 jobs:
-  build:
+  api_test:
     docker:
-      - image: circleci/node:11.7-browsers
+      - image: circleci/node:11.7
 
     working_directory: ~/repo
 
     steps:
       - checkout
       - restore_cache:
-          keys:
-            - api-dependencies-{{ checksum "toolset-api/package.json" }}
-            - api-dependencies-
+          name: Restoring API dependencies from cache 
+          key: api-dependencies-{{ checksum "toolset-api/package.json" }}
 
       - run: 
           name: Installing API dependencies
           command: cd toolset-api && npm install
       
       - save_cache:
+          name: Caching API dependencies
           paths:
             - toolset-api/node_modules
           key: api-dependencies-{{ checksum "toolset-api/package.json" }}
+
+      - run:
+          name: Running API linter
+          command: cd toolset-api && npm run lint
 
       - run:
           name: Running API unit tests
@@ -28,20 +32,33 @@ jobs:
 
       - store_artifacts:
           path: toolset-api/coverage
+          destination: api
 
+  react_test:
+    docker:
+      - image: circleci/node:11.7
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
       - restore_cache:
-          keys:
-            - react-dependencies-{{ checksum "toolset-react/package.json" }}
-            - react-dependencies-
+          name: Restoring React dependencies from cache 
+          key: react-dependencies-{{ checksum "toolset-react/package.json" }}
 
       - run: 
           name: Installing React dependencies
           command: cd toolset-react && npm install
       
       - save_cache:
+          name: Caching React dependencies
           paths:
             - toolset-react/node_modules
           key: react-dependencies-{{ checksum "toolset-react/package.json" }}
+
+      - run:
+          name: Running React linter
+          command: cd toolset-react && npm run lint
 
       - run: 
           name: Running React unit tests
@@ -50,19 +67,31 @@ jobs:
       - store_artifacts:
           path: toolset-react/coverage
 
+  angular_test:
+    docker:
+      - image: circleci/node:11.7-browsers
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
       - restore_cache:
-          keys:
-            - angular-dependencies-{{ checksum "toolset-angular/package.json" }}
-            - angular-dependencies-
+          name: Restoring Angular dependencies from cache 
+          key: angular-dependencies-{{ checksum "toolset-angular/package.json" }}
 
       - run: 
           name: Installing Angular dependencies
           command: cd toolset-angular && npm install
       
       - save_cache:
+          name: Caching Angular dependencies 
           paths:
             - toolset-angular/node_modules
           key: angular-dependencies-{{ checksum "toolset-angular/package.json" }}
+
+      - run:
+          name: Running Angular linter
+          command: cd toolset-angular && npm run lint
 
       - run: 
           name: Running Angular unit tests
@@ -70,5 +99,12 @@ jobs:
 
       - store_artifacts:
           path: toolset-angular/coverage
+workflows:
+  version: 2
+  unit_test:
+    jobs:
+      - api_test
+      - react_test
+      - angular_test
 
 

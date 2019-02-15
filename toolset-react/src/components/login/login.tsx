@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field, FormSubmitHandler, FormErrors } from 'redux-form';
+import { Field, FormErrors, FormSubmitHandler } from 'redux-form';
 import textField from './../textField/index';
 import './login.css';
 import { LoginComponentProps, LoginForm } from './propTypes';

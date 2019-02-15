@@ -3,11 +3,11 @@ import { UserAction } from '../actions/userActions';
 export type UserState = {
   token: string;
   error: string;
-}
+};
 
 const initialState: UserState = {
   token: '',
-  error: ''
+  error: '',
 };
 
 const userReducer = (state: UserState = initialState, action: UserAction): UserState => {
@@ -16,7 +16,7 @@ const userReducer = (state: UserState = initialState, action: UserAction): UserS
       break;
     case 'REGISTRATION_SUCCEEDED':
       return {
-        ...state
+        ...state,
       };
     case 'REGISTRATION_FAILED':
       return {
