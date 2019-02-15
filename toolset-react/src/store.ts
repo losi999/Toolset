@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 import userReducer, { UserState } from './reducers/userReducer';
 
 export type Store = {
-    user: UserState
+    user: UserState,
 };
 
 const logger = createLogger({

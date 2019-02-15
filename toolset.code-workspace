@@ -23,6 +23,10 @@
         {
             "name": "Vue client",
             "path": "toolset-vue"
+        },
+        {
+			"name": "Circle CI",
+            "path": ".circleci"
         }
     ],
 	"settings": {
