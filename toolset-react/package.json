@@ -19,7 +19,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "coverage": "driveup && react-scripts test --coverage",
+    "coverage": "react-scripts test --coverage",
     "eject": "react-scripts eject",
     "lint": "tslint -c tslint.json src/**/*.{ts,tsx}"
   },
