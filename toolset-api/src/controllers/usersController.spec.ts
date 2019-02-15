@@ -20,7 +20,7 @@ describe('Users controller', () => {
                 },
             });
 
-            expect(response.statusCode).to.equal(200);
+            expect(response.statusCode).to.equal(400);
         });
     });
 });
