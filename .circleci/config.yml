@@ -9,10 +9,7 @@ jobs:
 
     steps:
       - checkout
-      - run: pwd
-      - run: ls
-      - run: cd toolset-api 
-      - run: pwd
+      - run: ~/repo/cd toolset-api 
       - run: npm install
       - run: npm test
 
