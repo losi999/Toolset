@@ -9,9 +9,8 @@ jobs:
 
     steps:
       - checkout
-      - run: cd ~/repo/toolset-api 
-      - run: npm install
-      - run: npm test
+      - run: cd toolset-api && npm install
+      - run: cd toolset-api && npm test
 
       # # Download and cache dependencies
       # - restore_cache:
