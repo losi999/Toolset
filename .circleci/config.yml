@@ -39,5 +39,5 @@ jobs:
 
       - run: cd toolset-react && npm run coverage
       - store_artifacts:
-          path: toolset-api/coverage
+          path: toolset-react/coverage
 
