@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - checkout
-      - run: ~/repo/cd toolset-api 
+      - run: cd ~/repo/toolset-api 
       - run: npm install
       - run: npm test
 
