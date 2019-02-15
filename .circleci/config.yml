@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:11.7
+      - image: circleci/node:11.7-browsers
 
     working_directory: ~/repo
 
@@ -13,14 +13,18 @@ jobs:
             - api-dependencies-{{ checksum "toolset-api/package.json" }}
             - api-dependencies-
 
-      - run: cd toolset-api && npm install
+      - run: 
+          name: Installing API dependencies
+          command: cd toolset-api && npm install
       
       - save_cache:
           paths:
             - toolset-api/node_modules
           key: api-dependencies-{{ checksum "toolset-api/package.json" }}
 
-      - run: cd toolset-api && npm run coverage
+      - run:
+          name: Running API unit tests
+          command: cd toolset-api && npm run coverage
 
       - store_artifacts:
           path: toolset-api/coverage
@@ -30,14 +34,19 @@ jobs:
             - react-dependencies-{{ checksum "toolset-react/package.json" }}
             - react-dependencies-
 
-      - run: cd toolset-react && npm install
+      - run: 
+          name: Installing React dependencies
+          command: cd toolset-react && npm install
       
       - save_cache:
           paths:
             - toolset-react/node_modules
           key: react-dependencies-{{ checksum "toolset-react/package.json" }}
 
-      - run: cd toolset-react && npm run coverage
+      - run: 
+          name: Running React unit tests
+          command: cd toolset-react && npm run coverage
+
       - store_artifacts:
           path: toolset-react/coverage
 
@@ -46,14 +55,18 @@ jobs:
             - angular-dependencies-{{ checksum "toolset-angular/package.json" }}
             - angular-dependencies-
 
-      - run: cd toolset-angular && npm install
+      - run: 
+          name: Installing Angular dependencies
+          command: cd toolset-angular && npm install
       
       - save_cache:
           paths:
             - toolset-angular/node_modules
           key: angular-dependencies-{{ checksum "toolset-angular/package.json" }}
 
-      - run: cd toolset-angular && npm run coverage
+      - run: 
+          name: Running Angular unit tests
+          command: cd toolset-angular && npm run coverage
 
       - store_artifacts:
           path: toolset-angular/coverage
