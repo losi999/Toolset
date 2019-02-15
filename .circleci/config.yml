@@ -4,7 +4,6 @@ jobs:
     docker:
       - image: circleci/node:11.7
 
-
     working_directory: ~/repo
 
     steps:
@@ -13,7 +12,7 @@ jobs:
           keys:
             - api-dependencies-{{ checksum "toolset-api/package.json" }}
             - api-dependencies-
-            
+
       - run: cd toolset-api && npm install
       
       - save_cache:
@@ -21,4 +20,24 @@ jobs:
             - toolset-api/node_modules
           key: api-dependencies-{{ checksum "toolset-api/package.json" }}
 
-      - run: cd toolset-api && npm test
+      - run: cd toolset-api && npm run coverage
+
+      - store_artifacts:
+          path: toolset-api/coverage
+
+      - restore_cache:
+          keys:
+            - react-dependencies-{{ checksum "toolset-react/package.json" }}
+            - react-dependencies-
+
+      - run: cd toolset-react && npm install
+      
+      - save_cache:
+          paths:
+            - toolset-react/node_modules
+          key: react-dependencies-{{ checksum "toolset-react/package.json" }}
+
+      - run: cd toolset-react && npm run coverage
+      - store_artifacts:
+          path: toolset-api/coverage
+
