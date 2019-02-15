@@ -32,7 +32,7 @@ jobs:
 
       - store_artifacts:
           path: toolset-api/coverage
-          destination: api
+          destination: coverage
 
   react_test:
     docker:
@@ -66,6 +66,7 @@ jobs:
 
       - store_artifacts:
           path: toolset-react/coverage
+          destination: coverage
 
   angular_test:
     docker:
@@ -99,6 +100,7 @@ jobs:
 
       - store_artifacts:
           path: toolset-angular/coverage
+          destination: coverage
 workflows:
   version: 2
   unit_test:
