@@ -41,3 +41,21 @@ jobs:
       - store_artifacts:
           path: toolset-react/coverage
 
+      - restore_cache:
+          keys:
+            - angular-dependencies-{{ checksum "toolset-angular/package.json" }}
+            - angular-dependencies-
+
+      - run: cd toolset-angular && npm install
+      
+      - save_cache:
+          paths:
+            - toolset-angular/node_modules
+          key: angular-dependencies-{{ checksum "toolset-angular/package.json" }}
+
+      - run: cd toolset-angular && npm run coverage
+
+      - store_artifacts:
+          path: toolset-angular/coverage
+
+
