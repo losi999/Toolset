@@ -10,6 +10,7 @@ jobs:
     steps:
       - checkout
       - run: pwd
+      - run: ls
       - run: cd toolset-api 
       - run: pwd
       - run: npm install
