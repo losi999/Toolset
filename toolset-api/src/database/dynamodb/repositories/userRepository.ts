@@ -12,6 +12,7 @@ export default class UserRepository implements IUserRepository {
             ConditionExpression: 'attribute_not_exists(username)',
         }).promise();
     }
+
     public async getUserByUsername(username: string): Promise<User | null> {
         const users = (await this.dynamoDb.query({
             TableName: 'Users',
