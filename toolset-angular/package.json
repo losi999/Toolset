@@ -5,10 +5,10 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test": "ng test",
+    "test": "ng test --browsers=ChromeHeadless",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "coverage": "ng test --code-coverage --watch false"
+    "coverage": "ng test --browsers=ChromeHeadless --code-coverage --watch false"
   },
   "private": true,
   "dependencies": {
