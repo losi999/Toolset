@@ -70,7 +70,7 @@ jobs:
 
   angular_test:
     docker:
-      - image: circleci/node:11.7-browsers
+      - image: circleci/node:11.7
 
     working_directory: ~/repo
 
