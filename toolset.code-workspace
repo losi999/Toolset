@@ -25,7 +25,7 @@
             "path": "toolset-vue"
         },
         {
-			"name": "Circle CI",
+            "name": "Circle CI",
             "path": ".circleci"
         }
     ],
