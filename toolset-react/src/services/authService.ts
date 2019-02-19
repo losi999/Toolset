@@ -1,7 +1,7 @@
 import axios, { AxiosPromise } from 'axios';
 import { LoginRequest, LoginResponse, RegistrationRequest } from 'src/types';
 
-class UserService {
+class AuthService {
     public login(user: LoginRequest): AxiosPromise<LoginResponse> {
         return axios.post<LoginResponse>(`${process.env.REACT_APP_API_URL}/login`, user);
     }
@@ -11,4 +11,4 @@ class UserService {
     }
 }
 
-export default new UserService();
+export default new AuthService();

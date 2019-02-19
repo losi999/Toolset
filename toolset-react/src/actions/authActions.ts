@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import userService from 'src/services/userService';
+import authService from 'src/services/authService';
 import { Store } from 'src/store';
 import { ErrorResponse, LoginRequest, LoginResponse, RegistrationRequest } from 'src/types';
 
@@ -28,7 +28,7 @@ type LoginFailed = {
 
 type RegistrationAction = RegistrationRequested | RegistrationSucceeded | RegistrationFailed;
 type LoginAction = LoginRequested | LoginSucceeded | LoginFailed;
-export type UserAction = RegistrationAction | LoginAction;
+export type AuthAction = RegistrationAction | LoginAction;
 
 const registrationRequested = (): RegistrationRequested => {
     return {
@@ -54,7 +54,7 @@ export const registration = (user: RegistrationRequest): ThunkAction<void, Store
         dispatch(registrationRequested());
 
         try {
-            await userService.registration(user);
+            await authService.registration(user);
             dispatch(registrationSucceeded());
         } catch (error) {
             dispatch(registrationFailed(error));
@@ -87,7 +87,7 @@ export const login = (user: LoginRequest): ThunkAction<void, Store, undefined, L
         dispatch(loginRequested());
 
         try {
-            const response = await userService.login(user);
+            const response = await authService.login(user);
             dispatch(loginSucceeded(response.data));
         } catch (error) {
             dispatch(loginFailed(error));
