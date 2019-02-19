@@ -1,8 +1,8 @@
 import React from 'react';
 import { Field, FormErrors, FormSubmitHandler, FormWarnings } from 'redux-form';
-import textField from '../textField/index';
-import { RegistrationComponentProps, RegistrationForm } from './propTypes';
-import './registration.css';
+import { RegistrationComponentProps, RegistrationForm } from 'src/components/auth/registration/propTypes';
+import 'src/components/auth/registration/registration.css';
+import textField from 'src/components/textField/index';
 
 export const validate = (values: RegistrationForm): FormErrors<RegistrationForm> => {
     const errors: FormErrors<RegistrationForm> = {};

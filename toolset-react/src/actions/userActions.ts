@@ -1,8 +1,8 @@
 import { Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { Store } from '../store';
-import { ErrorResponse, LoginRequest, LoginResponse, RegistrationRequest } from '../types';
-import userService from './../services/userService';
+import userService from 'src/services/userService';
+import { Store } from 'src/store';
+import { ErrorResponse, LoginRequest, LoginResponse, RegistrationRequest } from 'src/types';
 
 type RegistrationRequested = {
     type: 'REGISTRATION_REQUESTED';

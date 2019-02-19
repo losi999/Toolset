@@ -1,5 +1,5 @@
 import axios, { AxiosPromise } from 'axios';
-import { LoginRequest, LoginResponse, RegistrationRequest } from '../types';
+import { LoginRequest, LoginResponse, RegistrationRequest } from 'src/types';
 
 class UserService {
     public login(user: LoginRequest): AxiosPromise<LoginResponse> {

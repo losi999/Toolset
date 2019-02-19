@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { ThunkDispatch } from 'redux-thunk';
-import { Store } from '../../store';
-import { LoginRequest } from '../../types';
-import { login, UserAction } from './../../actions/userActions';
-import Login, { validate } from './login';
-import { LoginDispatchProps, LoginForm, LoginProps, LoginStateProps } from './propTypes';
+import { login, UserAction } from 'src/actions/userActions';
+import Login, { validate } from 'src/components/auth/login/login';
+import { LoginDispatchProps, LoginForm, LoginProps, LoginStateProps } from 'src/components/auth/login/propTypes';
+import { Store } from 'src/store';
+import { LoginRequest } from 'src/types';
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<Store, undefined, UserAction>): LoginDispatchProps => {
     return {

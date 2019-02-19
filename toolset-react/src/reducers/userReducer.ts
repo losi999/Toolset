@@ -1,4 +1,4 @@
-import { UserAction } from '../actions/userActions';
+import { UserAction } from 'src/actions/userActions';
 
 export type UserState = {
   token: string;

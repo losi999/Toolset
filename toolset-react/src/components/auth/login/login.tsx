@@ -1,8 +1,8 @@
 import React from 'react';
 import { Field, FormErrors, FormSubmitHandler } from 'redux-form';
-import textField from './../textField/index';
-import './login.css';
-import { LoginComponentProps, LoginForm } from './propTypes';
+import 'src/components/auth/login/login.css';
+import { LoginComponentProps, LoginForm } from 'src/components/auth/login/propTypes';
+import textField from 'src/components/textField/index';
 
 export const validate = (values: LoginForm): FormErrors<LoginForm> => {
     const errors: FormErrors<LoginForm> = {};
