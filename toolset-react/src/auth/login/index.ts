@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { ThunkDispatch } from 'redux-thunk';
-import { AuthAction, login } from 'src/actions/authActions';
-import Login, { validate } from 'src/components/auth/login/login';
-import { LoginDispatchProps, LoginForm, LoginProps, LoginStateProps } from 'src/components/auth/login/propTypes';
+import { AuthAction, login } from 'src/auth/authActions';
+import Login, { validate } from 'src/auth/login/login';
+import { LoginDispatchProps, LoginForm, LoginProps, LoginStateProps } from 'src/auth/login/propTypes';
 import { Store } from 'src/store';
 import { LoginRequest } from 'src/types';
 

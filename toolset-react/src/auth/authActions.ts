@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import authService from 'src/services/authService';
+import authService from 'src/auth/authService';
 import { Store } from 'src/store';
 import { ErrorResponse, LoginRequest, LoginResponse, RegistrationRequest } from 'src/types';
 

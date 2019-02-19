@@ -1,8 +1,7 @@
 import React from 'react';
 import { Field, FormErrors, FormSubmitHandler } from 'redux-form';
-import 'src/components/auth/login/login.css';
-import { LoginComponentProps, LoginForm } from 'src/components/auth/login/propTypes';
-import textField from 'src/components/textField/index';
+import 'src/auth/login/login.css';
+import { LoginComponentProps, LoginForm } from 'src/auth/login/propTypes';
 
 export const validate = (values: LoginForm): FormErrors<LoginForm> => {
     const errors: FormErrors<LoginForm> = {};
@@ -34,20 +33,20 @@ const Login: React.FC<LoginComponentProps> = (props) => {
     return (
         <form onSubmit={props.handleSubmit(onSubmit)}>
             <div>
-                <Field
+                {/* <Field
                     name='username'
                     component={textField}
                     type='text'
                     label='Username'
-                />
+                /> */}
             </div>
             <div>
-                <Field
+                {/* <Field
                     name='password'
                     component={textField}
                     type='password'
                     label='Password'
-                />
+                /> */}
             </div>
             <input type='submit' value='Send' disabled={props.pristine || props.submitting || props.invalid} />
             <div>Token: {props.token}</div>

@@ -3,7 +3,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { reducer as form } from 'redux-form';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
-import authReducer, { AuthState } from 'src/reducers/authReducer';
+import authReducer, { AuthState } from 'src/auth/authReducer';
 
 export type Store = {
     auth: AuthState,

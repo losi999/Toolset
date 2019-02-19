@@ -1,4 +1,4 @@
-import { AuthAction } from 'src/actions/authActions';
+import { AuthAction } from 'src/auth/authActions';
 
 export type AuthState = {
   token: string;
