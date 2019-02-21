@@ -1,8 +1,7 @@
 import React from 'react';
 import { Field, FormErrors, FormSubmitHandler, FormWarnings } from 'redux-form';
-import textField from '../textField/index';
-import { RegistrationComponentProps, RegistrationForm } from './propTypes';
-import './registration.css';
+import { RegistrationComponentProps, RegistrationForm } from 'src/auth/registration/propTypes';
+import 'src/auth/registration/registration.css';
 
 export const validate = (values: RegistrationForm): FormErrors<RegistrationForm> => {
     const errors: FormErrors<RegistrationForm> = {};
@@ -68,36 +67,36 @@ const Registration: React.FC<RegistrationComponentProps> = (props) => {
     return (
         <form onSubmit={props.handleSubmit(onSubmit)}>
             <div>
-                <Field
+                {/* <Field
                     name='username'
                     component={textField}
                     type='text'
                     label='Username'
-                />
+                /> */}
             </div>
             <div>
-                <Field
+                {/* <Field
                     name='password'
                     component={textField}
                     type='password'
                     label='Password'
-                />
+                /> */}
             </div>
             <div>
-                <Field
+                {/* <Field
                     name='passwordConfirm'
                     component={textField}
                     type='password'
                     label='Password confirm'
-                />
+                /> */}
             </div>
             <div>
-                <Field
+                {/* <Field
                     name='displayName'
                     component={textField}
                     type='text'
                     label='Display name'
-                />
+                /> */}
             </div>
             <input type='submit' value='Send' disabled={props.pristine || props.submitting || props.invalid} />
         </form>

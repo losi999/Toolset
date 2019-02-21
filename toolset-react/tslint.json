@@ -8,6 +8,10 @@
             true,
             "single"
         ],
-        "interface-over-type-literal": false
+        "interface-over-type-literal": false,
+        "max-line-length": [
+            true,
+            200
+        ]
     }
 }

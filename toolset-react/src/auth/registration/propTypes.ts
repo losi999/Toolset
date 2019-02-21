@@ -1,5 +1,5 @@
 import { InjectedFormProps } from 'redux-form';
-import { RegistrationRequest } from '../../types';
+import { RegistrationRequest } from 'src/types';
 
 export type RegistrationStateProps = {};
 

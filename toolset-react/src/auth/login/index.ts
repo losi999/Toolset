@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { ThunkDispatch } from 'redux-thunk';
-import { Store } from '../../store';
-import { LoginRequest } from '../../types';
-import { login, UserAction } from './../../actions/userActions';
-import Login, { validate } from './login';
-import { LoginDispatchProps, LoginForm, LoginProps, LoginStateProps } from './propTypes';
+import { AuthAction, login } from 'src/auth/authActions';
+import Login, { validate } from 'src/auth/login/login';
+import { LoginDispatchProps, LoginForm, LoginProps, LoginStateProps } from 'src/auth/login/propTypes';
+import { Store } from 'src/store';
+import { LoginRequest } from 'src/types';
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<Store, undefined, UserAction>): LoginDispatchProps => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<Store, undefined, AuthAction>): LoginDispatchProps => {
     return {
         login(user: LoginRequest) {
             dispatch(login(user));
@@ -17,7 +17,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<Store, undefined, UserAction
 
 const mapStateToProps = (state: Store): LoginStateProps => {
     return {
-        token: state.user.token,
+        token: state.auth.token,
     };
 };
 

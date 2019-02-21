@@ -1,5 +1,5 @@
 import { InjectedFormProps } from 'redux-form';
-import { LoginRequest } from '../../types';
+import { LoginRequest } from 'src/types';
 
 export type LoginDispatchProps = {
     login(user: LoginRequest): void;

@@ -1,16 +1,16 @@
-import { UserAction } from '../actions/userActions';
+import { AuthAction } from 'src/auth/authActions';
 
-export type UserState = {
+export type AuthState = {
   token: string;
   error: string;
 };
 
-const initialState: UserState = {
+const initialState: AuthState = {
   token: '',
   error: '',
 };
 
-const userReducer = (state: UserState = initialState, action: UserAction): UserState => {
+const authReducer = (state: AuthState = initialState, action: AuthAction): AuthState => {
   switch (action.type) {
     case 'LOGIN_FAILED':
       break;
@@ -38,4 +38,4 @@ const userReducer = (state: UserState = initialState, action: UserAction): UserS
   return state;
 };
 
-export default userReducer;
+export default authReducer;

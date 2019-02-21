@@ -39,9 +39,12 @@ jobs:
       - image: circleci/node:11.7
 
     working_directory: ~/repo
-
     steps:
       - checkout
+      - run:
+          name: Setting NODE_PATH env variable
+          command: echo 'export NODE_PATH=$REACT_NODE_PATH' >> $BASH_ENV
+
       - restore_cache:
           name: Restoring React dependencies from cache 
           key: react-dependencies-{{ checksum "toolset-react/package.json" }}
