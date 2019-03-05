@@ -3,21 +3,24 @@
     <label>
       Username
       <input placeholder="Username" type="text" formControlName="username">
-      <ng-container *ngIf="username.touched && username.errors">
-        <span class="error" *ngIf="username.errors.required">Required</span>
-        <span class="error" *ngIf="username.errors.minlength">Username must be at least 4 characters long</span>
-      </ng-container>
     </label>
   </div>
   <div>
     <label>
       Password
       <input placeholder="Password" type="password" formControlName="password">
-      <ng-container *ngIf="password.touched && password.errors">
-        <span class="error" *ngIf="password.errors.required">Required</span>
-        <span class="error" *ngIf="password.errors.minlength">Password must be at least 4 characters long</span>
-      </ng-container>
     </label>
   </div>
-  <button type="submit" [disabled]="form.invalid">Send</button>
+  <ul *ngIf="form.touched">
+    <li *ngIf="username.errors && username.errors.required">
+      Username is required
+    </li>
+    <li *ngIf="password.errors && password.errors.required">
+      Password is required
+    </li>
+    <li *ngIf="form.errors && form.errors.invalidLogin">
+      Invalid login credentials
+    </li>
+  </ul>
+  <button type="submit">Send</button>
 </form>
