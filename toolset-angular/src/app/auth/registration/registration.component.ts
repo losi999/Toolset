@@ -1,14 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
+import { WarnableAbstractControl } from './registration.types';
 
 const passwordMatchValidator: ValidatorFn = (form) => {
   const password = form.get('password').value;
   const passwordConfirm = form.get('passwordConfirm').value;
 
   return password && passwordConfirm && password !== passwordConfirm
-    ? { 'passwordsNotMatch': true }
+    ? { passwordsNotMatch: true }
     : null;
+};
+
+const passwordStrengthValidator: ValidatorFn = (control: WarnableAbstractControl) => {
+  control.warnings = null;
+  if (!control.value || control.value.length < 4) {
+    return null;
+  }
+  if (control.value.length < 6) {
+    control.warnings = { strength: 1 };
+    return null;
+  }
+
+  if (!/^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{6,}$/.test(control.value)) {
+    control.warnings = { strength: 2 };
+    return null;
+  }
+  return null;
 };
 
 @Component({
@@ -52,23 +70,33 @@ export class RegistrationComponent implements OnInit {
 
   ngOnInit() {
     this.form = new FormGroup({
-      'username': new FormControl(null, [
-        Validators.required,
-        Validators.minLength(4),
-      ]),
-      'password': new FormControl(null, [
-        Validators.required,
-        Validators.minLength(4),
-      ]),
-      'passwordConfirm': new FormControl(null, [
-        Validators.required,
-        Validators.minLength(4),
-      ]),
-      'displayName': new FormControl(null, [
-        Validators.required
-      ])
-    }, [
-        passwordMatchValidator
-      ]);
+      username: new FormControl(null, {
+        validators: [
+          Validators.required,
+          Validators.minLength(4),
+        ],
+        updateOn: 'change'
+      }),
+      password: new FormControl(null, {
+        validators: [
+          Validators.required,
+          Validators.minLength(4),
+          passwordStrengthValidator
+        ],
+        updateOn: 'change'
+      }),
+      passwordConfirm: new FormControl(null),
+      displayName: new FormControl(null, {
+        validators: [
+          Validators.required
+        ],
+        updateOn: 'change'
+      })
+    }, {
+        validators: [
+          passwordMatchValidator
+        ],
+        updateOn: 'change'
+      });
   }
 }
