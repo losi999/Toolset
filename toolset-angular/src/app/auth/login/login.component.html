@@ -12,13 +12,13 @@
     </label>
   </div>
   <ul *ngIf="form.touched">
-    <li *ngIf="username.errors && username.errors.required">
+    <li *ngIf="username.errors?.required">
       Username is required
     </li>
-    <li *ngIf="password.errors && password.errors.required">
+    <li *ngIf="password.errors?.required">
       Password is required
     </li>
-    <li *ngIf="form.errors && form.errors.invalidLogin">
+    <li *ngIf="form.errors?.invalidLogin">
       Invalid login credentials
     </li>
   </ul>

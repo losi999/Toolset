@@ -43,14 +43,14 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.form = new FormGroup({
-      'username': new FormControl(null, {
+      username: new FormControl(null, {
         validators: [
           Validators.required
         ],
         updateOn: 'submit'
       }
       ),
-      'password': new FormControl(null,
+      password: new FormControl(null,
         {
           validators: [
             Validators.required

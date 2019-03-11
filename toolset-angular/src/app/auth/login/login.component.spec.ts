@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { LoginComponent } from './login.component';
 import { AuthService } from '../auth.service';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -42,21 +41,21 @@ describe('LoginComponent', () => {
     expect(component.form.value.password).toBeNull();
   });
 
-  it('should invalidate form is username is missing', async(() => {
+  it('should invalidate form if username is missing', async(() => {
     component.form.valueChanges.subscribe(() => {
       expect(component.username.errors.required).toBe(true);
     });
-    component.form.setValue({
+    component.form.patchValue({
       username: '',
       password: 'pass123'
     });
   }));
 
-  it('should invalidate form is password is missing', async(() => {
+  it('should invalidate form if password is missing', async(() => {
     component.form.valueChanges.subscribe(() => {
       expect(component.password.errors.required).toBe(true);
     });
-    component.form.setValue({
+    component.form.patchValue({
       username: 'user123',
       password: ''
     });
@@ -67,7 +66,7 @@ describe('LoginComponent', () => {
       component.onSubmit();
       expect(mockAuthService.login).not.toHaveBeenCalled();
     });
-    component.form.setValue({
+    component.form.patchValue({
       username: '',
       password: ''
     });
@@ -79,7 +78,7 @@ describe('LoginComponent', () => {
       component.onSubmit();
       expect(mockAuthService.login).toHaveBeenCalled();
     });
-    component.form.setValue({
+    component.form.patchValue({
       username: 'aaaa',
       password: 'aaaa'
     });
@@ -91,7 +90,7 @@ describe('LoginComponent', () => {
       component.onSubmit();
       expect(component.form.errors.invalidLogin).toBe(true);
     });
-    component.form.setValue({
+    component.form.patchValue({
       username: 'aaaa',
       password: 'aaaa'
     });
