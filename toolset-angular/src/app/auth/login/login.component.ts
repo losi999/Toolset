@@ -21,34 +21,42 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    this.form.markAsTouched();
+
     if (this.form.valid) {
       this.authService.login({
         username: this.username.value,
         password: this.password.value
       })
-        .subscribe((response) => {
-          console.log(response);
+        .subscribe({
+          next: (response) => {
+            console.log(response);
+          },
+          error: () => {
+            this.form.setErrors({
+              invalidLogin: true
+            });
+          }
         });
     }
   }
 
   ngOnInit() {
     this.form = new FormGroup({
-      'username': new FormControl(null, [
-        Validators.required,
-        Validators.minLength(4),
-        (control) => {
-          const warning = Validators.minLength(6)(control);
-          if (warning) {
-            (control as any).warnings = warning;
-          }
-          return null;
-        }
-      ]),
-      'password': new FormControl(null, [
-        Validators.required,
-        Validators.minLength(4)
-      ])
+      username: new FormControl(null, {
+        validators: [
+          Validators.required
+        ],
+        updateOn: 'submit'
+      }
+      ),
+      password: new FormControl(null,
+        {
+          validators: [
+            Validators.required
+          ],
+          updateOn: 'submit'
+        })
     });
   }
 }

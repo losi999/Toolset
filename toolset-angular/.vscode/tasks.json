@@ -1,0 +1,28 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Starting Angular App",
+      "type": "npm",
+      "script": "start",
+      "isBackground": true,
+      "presentation": {
+          "echo": true,
+          "reveal": "silent",
+          "focus": false,
+          "panel": "dedicated",
+          "showReuseMessage": false,
+          "clear": false
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Unit testing Angular App",
+      "type": "npm",
+      "script": "test",
+      "problemMatcher": []
+    }
+  ]
+}
