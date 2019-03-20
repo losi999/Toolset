@@ -1,56 +1,64 @@
-import React from 'react';
-import { Field, FormErrors, FormSubmitHandler } from 'redux-form';
+import React, { useState } from 'react';
 import 'src/auth/login/login.css';
-import { LoginComponentProps, LoginForm } from 'src/auth/login/propTypes';
+import { LoginFormFields, LoginFormValues } from 'src/auth/login/propTypes';
 
-export const validate = (values: LoginForm): FormErrors<LoginForm> => {
-    const errors: FormErrors<LoginForm> = {};
+const Login: React.FC = () => {
+    const [formValues, setFormValue] = useState<LoginFormValues>({
+        username: '',
+        password: '',
+    });
 
-    if (!values.username) {
-        errors.username = 'Required';
-    } else {
-        if (values.username.length < 4) {
-            errors.username = 'Username must be at least 4 characters long';
-        }
-    }
+    const onSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
 
-    if (!values.password) {
-        errors.password = 'Required';
-    } else {
-        if (values.password.length < 4) {
-            errors.password = 'Password must be at least 4 characters long';
-        }
-    }
+        console.log('values', formValues);
+    };
 
-    return errors;
-};
+    const onInputValueChange = (fieldName: LoginFormFields) => {
+        return (event: React.ChangeEvent<HTMLInputElement>) => {
+            setFieldValue(fieldName, event.target.value);
+        };
+    };
 
-const Login: React.FC<LoginComponentProps> = (props) => {
-    const onSubmit: FormSubmitHandler<LoginForm> = (values) => {
-        props.login(values);
+    const setFieldValue = (fieldName: LoginFormFields, value: string) => {
+        setFormValue({
+            ...formValues,
+            [fieldName]: value,
+        });
     };
 
     return (
-        <form onSubmit={props.handleSubmit(onSubmit)}>
-            <div>
-                {/* <Field
-                    name='username'
-                    component={textField}
-                    type='text'
-                    label='Username'
-                /> */}
-            </div>
-            <div>
-                {/* <Field
-                    name='password'
-                    component={textField}
-                    type='password'
-                    label='Password'
-                /> */}
-            </div>
-            <input type='submit' value='Send' disabled={props.pristine || props.submitting || props.invalid} />
-            <div>Token: {props.token}</div>
-        </form>
+        <div>
+            <form onSubmit={onSubmit}>
+                <div>
+                    <label>
+                        Username
+                        <input
+                            value={formValues.username}
+                            onChange={onInputValueChange('username')}
+                            className='login-form__username'
+                            name='username'
+                            type='text'
+                            placeholder='Username'
+                        />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        Password
+                        <input
+                            value={formValues.password}
+                            onChange={onInputValueChange('password')}
+                            className='login-form__password'
+                            name='password'
+                            type='password'
+                            placeholder='Password'
+                        />
+                    </label>
+                </div>
+                <input className='login-form__submit' type='submit' value='Send' />
+            </form>
+        </div >
     );
 };
 

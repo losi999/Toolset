@@ -1,12 +1,9 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { reducer as form } from 'redux-form';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
-import authReducer, { AuthState } from 'src/auth/authReducer';
 
 export type Store = {
-    auth: AuthState,
 };
 
 const logger = createLogger({
@@ -14,8 +11,7 @@ const logger = createLogger({
 });
 
 const reducer = combineReducers({
-    form,
-    auth: authReducer,
+
 });
 
 const store = createStore(reducer, {}, composeWithDevTools(applyMiddleware(thunk, logger)));
