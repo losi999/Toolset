@@ -1,5 +1,31 @@
-export type RegistrationFormFields = 'username' | 'password' | 'passwordConfirm' | 'displayName';
+export type RegistrationFormFields = keyof RegistrationFormValues;
 
 export type RegistrationFormValues = {
-    [P in RegistrationFormFields]: string;
+    username: string;
+    password: string;
+    passwordConfirm: string;
+    displayName: string;
+};
+
+export type RegistrationFormTouches = {
+    [P in RegistrationFormFields]: boolean;
+};
+
+export type RegistrationFormValidations = {
+    form?: {
+        usernameTaken: boolean,
+    }
+    username: {
+        minLength?: boolean,
+    } | null;
+    password: {
+        minLength?: boolean,
+        strength?: 'weak' | 'medium',
+    } | null;
+    passwordConfirm: {
+        passwordsNotMatch?: boolean,
+    } | null;
+    displayName: {
+        required?: boolean,
+    } | null;
 };
