@@ -1,18 +1,31 @@
-import { InjectedFormProps } from 'redux-form';
-import { RegistrationRequest } from 'src/types';
+export type RegistrationFormFields = keyof RegistrationFormValues;
 
-export type RegistrationStateProps = {};
-
-export type RegistrationDispatchProps = {
-    registration(user: RegistrationRequest): void;
-};
-
-export type RegistrationForm = {
+export type RegistrationFormValues = {
     username: string;
     password: string;
     passwordConfirm: string;
     displayName: string;
 };
-export type RegistrationProps = RegistrationStateProps & RegistrationDispatchProps;
 
-export type RegistrationComponentProps = RegistrationProps & InjectedFormProps<RegistrationForm, RegistrationProps>;
+export type RegistrationFormTouches = {
+    [P in RegistrationFormFields]: boolean;
+};
+
+export type RegistrationFormValidations = {
+    form?: {
+        usernameTaken: boolean,
+    }
+    username: {
+        minLength?: boolean,
+    } | null;
+    password: {
+        minLength?: boolean,
+        strength?: 'weak' | 'medium',
+    } | null;
+    passwordConfirm: {
+        passwordsNotMatch?: boolean,
+    } | null;
+    displayName: {
+        required?: boolean,
+    } | null;
+};

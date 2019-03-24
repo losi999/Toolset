@@ -1,56 +1,95 @@
-import React from 'react';
-import { Field, FormErrors, FormSubmitHandler } from 'redux-form';
+import React, { useState } from 'react';
+import authService from 'src/auth/authService';
+import { validateLogin } from 'src/auth/authValidator';
 import 'src/auth/login/login.css';
-import { LoginComponentProps, LoginForm } from 'src/auth/login/propTypes';
+import { LoginFormFields, LoginFormValidations, LoginFormValues } from 'src/auth/login/propTypes';
 
-export const validate = (values: LoginForm): FormErrors<LoginForm> => {
-    const errors: FormErrors<LoginForm> = {};
+const Login: React.FC = () => {
+    const onSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
 
-    if (!values.username) {
-        errors.username = 'Required';
-    } else {
-        if (values.username.length < 4) {
-            errors.username = 'Username must be at least 4 characters long';
+        const { isValid, validation } = validateLogin(formValues);
+        setFormError(validation);
+
+        if (isValid) {
+            try {
+                const response = await authService.login(formValues);
+            } catch (error) {
+                setFormError({
+                    ...formErrors,
+                    form: {
+                        invalidCredentials: true,
+                    },
+                });
+            }
         }
-    }
+    };
 
-    if (!values.password) {
-        errors.password = 'Required';
-    } else {
-        if (values.password.length < 4) {
-            errors.password = 'Password must be at least 4 characters long';
-        }
-    }
+    const [formValues, setFormValue] = useState<LoginFormValues>({
+        username: '',
+        password: '',
+    });
 
-    return errors;
-};
+    const [formErrors, setFormError] = useState<LoginFormValidations>({
+        username: null,
+        password: null,
+    });
 
-const Login: React.FC<LoginComponentProps> = (props) => {
-    const onSubmit: FormSubmitHandler<LoginForm> = (values) => {
-        props.login(values);
+    const onChangeInput = (fieldName: LoginFormFields) => {
+        return (event: React.ChangeEvent<HTMLInputElement>) => {
+            setFormValue({
+                ...formValues,
+                [fieldName]: event.target.value,
+            });
+        };
+    };
+
+    const renderValidationErrors = () => {
+        return (
+            <ul>
+                {formErrors.username && formErrors.username.required ?
+                    (<li>Username is required</li>) : null}
+                {formErrors.password && formErrors.password.required ?
+                    (<li>Password is required</li>) : null}
+                {formErrors.form && formErrors.form.invalidCredentials ?
+                    (<li>Invalid login credentials</li>) : null}
+            </ul>
+        );
     };
 
     return (
-        <form onSubmit={props.handleSubmit(onSubmit)}>
-            <div>
-                {/* <Field
-                    name='username'
-                    component={textField}
-                    type='text'
-                    label='Username'
-                /> */}
-            </div>
-            <div>
-                {/* <Field
-                    name='password'
-                    component={textField}
-                    type='password'
-                    label='Password'
-                /> */}
-            </div>
-            <input type='submit' value='Send' disabled={props.pristine || props.submitting || props.invalid} />
-            <div>Token: {props.token}</div>
-        </form>
+        <div>
+            <form onSubmit={onSubmit}>
+                <div>
+                    <label>
+                        Username
+                        <input
+                            value={formValues.username}
+                            className='login-form__username'
+                            name='username'
+                            type='text'
+                            placeholder='Username'
+                            onChange={onChangeInput('username')}
+                        />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        Password
+                        <input
+                            value={formValues.password}
+                            className='login-form__password'
+                            name='password'
+                            type='password'
+                            placeholder='Password'
+                            onChange={onChangeInput('password')}
+                        />
+                    </label>
+                </div>
+                {renderValidationErrors()}
+                <input className='login-form__submit' type='submit' value='Send' />
+            </form>
+        </div >
     );
 };
 
