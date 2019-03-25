@@ -4,21 +4,15 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "React start",
+            "label": "DEV API start",
             "type": "npm",
             "script": "start",
             "problemMatcher": []
         },
         {
-            "label": "React unit test",
+            "label": "DEV API unit test",
             "type": "npm",
             "script": "test",
-            "problemMatcher": []
-        },
-        {
-            "label": "React coverage",
-            "type": "npm",
-            "script": "coverage:dev",
             "problemMatcher": []
         }
     ]
