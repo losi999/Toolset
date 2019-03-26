@@ -12,7 +12,7 @@
         {
             "label": "DEV API unit test",
             "type": "npm",
-            "script": "test",
+            "script": "test:dev",
             "problemMatcher": []
         }
     ]

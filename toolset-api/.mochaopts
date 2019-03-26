@@ -2,6 +2,4 @@
 --require source-map-support/register
 --full-trace
 --exit
---watch
---watch-extensions ts
 src/**/*.spec.ts
