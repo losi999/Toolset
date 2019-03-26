@@ -10,6 +10,23 @@
       "request": "launch",
       "url": "http://localhost:3000",
       "webRoot": "${workspaceRoot}/src"
+    },
+    {
+      "name": "React debug unit test",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/react-scripts",
+      "args": [
+        "--inspect-brk",
+        "test",
+        "--runInBand",
+        "--no-cache",
+        "--no-watch"
+      ],
+      "cwd": "${workspaceRoot}",
+      "protocol": "inspector",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
     }
   ]
 }
