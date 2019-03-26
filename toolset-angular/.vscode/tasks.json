@@ -4,24 +4,21 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Starting Angular App",
+      "label": "Angular start",
       "type": "npm",
       "script": "start",
-      "isBackground": true,
-      "presentation": {
-          "echo": true,
-          "reveal": "silent",
-          "focus": false,
-          "panel": "dedicated",
-          "showReuseMessage": false,
-          "clear": false
-      },
       "problemMatcher": []
     },
     {
-      "label": "Unit testing Angular App",
+      "label": "Angular unit test",
       "type": "npm",
-      "script": "test",
+      "script": "test:dev",
+      "problemMatcher": []
+    },
+    {
+      "label": "Angular coverage",
+      "type": "npm",
+      "script": "coverage",
       "problemMatcher": []
     }
   ]

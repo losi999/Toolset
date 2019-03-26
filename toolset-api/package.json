@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "test": "mocha --opts .mochaopts",
+    "test:dev": "mocha --opts .mochaopts --watch --watch-extensions ts",
     "coverage": "nyc npm test",
     "typedoc": "typedoc --options typedoc.config.js src/",
     "lint": "tslint -c tslint.json src/**/*.{ts,tsx}",
