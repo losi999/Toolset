@@ -18,12 +18,12 @@ const passwordStrengthValidator: ValidatorFn = (control: WarnableAbstractControl
     return null;
   }
   if (control.value.length < 6) {
-    control.warnings = { strength: 1 };
+    control.warnings = { strength: 'weak' };
     return null;
   }
 
   if (!/^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{6,}$/.test(control.value)) {
-    control.warnings = { strength: 2 };
+    control.warnings = { strength: 'medium' };
     return null;
   }
   return null;
@@ -56,6 +56,10 @@ export class RegistrationComponent implements OnInit {
   }
 
   onSubmit() {
+    Object.values(this.form.controls).forEach(control => {
+      control.markAsTouched();
+    });
+
     if (this.form.valid) {
       this.authService.registration({
         username: this.username.value,

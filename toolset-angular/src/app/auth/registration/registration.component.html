@@ -5,7 +5,8 @@
       <input placeholder="Username" type="text" formControlName="username">
     </label>
     <ng-container *ngIf="username.touched">
-      <span *ngIf="username.errors?.required || username.errors?.minlength">Username must be at least 4 characters long</span>
+      <span *ngIf="username.errors?.required || username.errors?.minlength">Username must be at least 4 characters
+        long</span>
     </ng-container>
   </div>
   <div>
@@ -13,9 +14,10 @@
       Password
       <input placeholder="Password" type="password" formControlName="password">
       <ng-container *ngIf="password.touched">
-        <span *ngIf="password.errors?.required || password.errors?.minlength">Password must be at least 4 characters long</span>
-        <span *ngIf="password.warnings?.strength === 1">Password is weak</span>
-        <span *ngIf="password.warnings?.strength === 2">Password is medium</span>
+        <span *ngIf="password.errors?.required || password.errors?.minlength">Password must be at least 4 characters
+          long</span>
+        <span *ngIf="password.warnings?.strength === 'weak'">Password is weak</span>
+        <span *ngIf="password.warnings?.strength === 'medium'">Password is medium</span>
       </ng-container>
     </label>
   </div>

@@ -1,7 +1,7 @@
 import { AbstractControl } from '@angular/forms';
 
 interface RegistrationWarnings {
-  strength: number;
+  strength: 'weak' | 'medium';
 }
 
 export interface WarnableAbstractControl extends AbstractControl {
