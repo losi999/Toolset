@@ -81,7 +81,7 @@ describe('RegistrationComponent', () => {
 
   it('should warn with "weak" message if password is between 4 and 6 characters', async(() => {
     component.form.valueChanges.subscribe(() => {
-      expect((component.password as WarnableAbstractControl).warnings.strength).toBe(1);
+      expect((component.password as WarnableAbstractControl).warnings.strength).toBe('weak');
       expect(component.form.valid).toBe(true);
     });
     component.form.patchValue({
@@ -94,7 +94,7 @@ describe('RegistrationComponent', () => {
 
   it('should warn with "medium" message if password is at least 6 characters but does not contain lowercase, uppercase letters and numbers', async(() => {
     component.form.valueChanges.subscribe(() => {
-      expect((component.password as WarnableAbstractControl).warnings.strength).toBe(2);
+      expect((component.password as WarnableAbstractControl).warnings.strength).toBe('medium');
       expect(component.form.valid).toBe(true);
     });
     component.form.patchValue({
