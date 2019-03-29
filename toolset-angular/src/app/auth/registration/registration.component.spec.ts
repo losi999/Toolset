@@ -1,9 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RegistrationComponent } from './registration.component';
-import { AuthService } from '../auth.service';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { WarnableAbstractControl } from './registration.types';
 import { of } from 'rxjs';
+
+import { RegistrationComponent } from '@/app/auth/registration/registration.component';
+import { AuthService } from '@/app/auth/auth.service';
+import { WarnableAbstractControl } from '@/app/auth/registration/registration.types';
 
 describe('RegistrationComponent', () => {
   let component: RegistrationComponent;

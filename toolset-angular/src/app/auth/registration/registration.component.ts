@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth.service';
 import { FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
-import { WarnableAbstractControl } from './registration.types';
+
+import { AuthService } from '@/app/auth/auth.service';
+import { WarnableAbstractControl } from '@/app/auth/registration/registration.types';
 
 const passwordMatchValidator: ValidatorFn = (form) => {
   const password = form.get('password').value;
