@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 import 'mocha';
-import AuthController from './authController';
+import AuthController from '@/controllers/authController';
 import jwt from 'jsonwebtoken';
 import sinon from 'sinon';
-import { ControllerRequest } from '../models/types/controllerRequest';
+import { ControllerRequest } from '@/models/types/controllerRequest';
 import { expect } from 'chai';
-import { UnauthorizedResponse, ForbiddenResponse } from '../models/types/controllerResponses';
+import { UnauthorizedResponse, ForbiddenResponse } from '@/models/types/controllerResponses';
 
 describe('Auth controller', () => {
     let controller: AuthController;

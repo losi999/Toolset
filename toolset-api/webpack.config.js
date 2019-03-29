@@ -16,7 +16,13 @@ module.exports = (env, options) => {
         },
         mode: options.mode || 'development',
         resolve: {
-            extensions: ['.tsx', '.ts', '.js'],
+            extensions: ['.ts', '.js'],
+            modules: [
+                'node_modules'
+            ],
+            alias: {
+                '@': path.resolve('src')
+            }
         },
         output: {
             path: path.join(__dirname, options.mode === 'production' ? 'build' : 'dist'),

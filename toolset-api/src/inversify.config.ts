@@ -1,7 +1,7 @@
 import { Container } from 'inversify';
-import DynamoUnitOfWork from './database/dynamodb/unitOfWork';
-import MongoUnitOfWork from './database/mongodb/unitOfWork';
-import { IUnitOfWork } from './interfaces';
+import DynamoUnitOfWork from '@/database/dynamodb/unitOfWork';
+import MongoUnitOfWork from '@/database/mongodb/unitOfWork';
+import { IUnitOfWork } from '@/interfaces';
 
 const unitOfWorks: any = {
     mongodb: () => new MongoUnitOfWork(),

@@ -1,4 +1,4 @@
-import { OkResponse } from '../types/controllerResponses';
+import { OkResponse } from '@/models/types/controllerResponses';
 
 interface LoginResponseBody {
     token: string;

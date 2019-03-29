@@ -1,7 +1,7 @@
 import { injectable } from 'inversify';
 import mongoose from 'mongoose';
-import { IUnitOfWork, IUserRepository } from '../../interfaces';
-import UserRepository from './repositories/userRepository';
+import { IUnitOfWork, IUserRepository } from '@/interfaces';
+import UserRepository from '@/database/mongodb/repositories/userRepository';
 
 @injectable()
 export default class UnitOfWork implements IUnitOfWork {

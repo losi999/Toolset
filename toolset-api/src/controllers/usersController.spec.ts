@@ -4,14 +4,14 @@ import 'mocha';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import sinon from 'sinon';
-import UsersController from './usersController';
-import { IUnitOfWork } from '../interfaces';
-import LoginResponse from '../models/DTOs/loginResponse';
+import UsersController from '@/controllers/usersController';
+import { IUnitOfWork } from '@/interfaces';
+import LoginResponse from '@/models/DTOs/loginResponse';
 import { Request } from 'express';
-import { ControllerRequest } from '../models/types/controllerRequest';
-import LoginRequest from '../models/DTOs/loginRequest';
-import RegistrationRequest from '../models/DTOs/registrationRequest';
-import { BadRequestResponse } from '../models/types/controllerResponses';
+import { ControllerRequest } from '@/models/types/controllerRequest';
+import LoginRequest from '@/models/DTOs/loginRequest';
+import RegistrationRequest from '@/models/DTOs/registrationRequest';
+import { BadRequestResponse } from '@/models/types/controllerResponses';
 
 describe('Users controller', () => {
     let controller: UsersController;
