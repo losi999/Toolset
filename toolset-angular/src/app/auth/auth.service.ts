@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
-import LoginRequest from 'src/app/auth/types/LoginRequest';
-import LoginResponse from 'src/app/auth/types/LoginResponse';
-import RegistrationRequest from 'src/app/auth/types/RegistrationRequest';
+
+import { environment } from '@/environments/environment';
+import LoginRequest from '@/app/auth/types/LoginRequest';
+import LoginResponse from '@/app/auth/types/LoginResponse';
+import RegistrationRequest from '@/app/auth/types/RegistrationRequest';
 
 @Injectable()
 export class AuthService {

@@ -1,10 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { AuthModule } from './auth/auth.module';
-import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
+import { AppRoutingModule } from '@/app/app-routing.module';
+import { AppComponent } from '@/app/app.component';
+import { AuthModule } from '@/app/auth/auth.module';
+import { NavigationBarComponent } from '@/app/navigation-bar/navigation-bar.component';
 
 @NgModule({
   declarations: [

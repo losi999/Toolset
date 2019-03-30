@@ -1,6 +1,6 @@
 import { Document, model, Schema } from 'mongoose';
-import { IUserRepository } from '../../../interfaces';
-import { User } from '../../../models/entities/user';
+import { IUserRepository } from '@/interfaces';
+import { User } from '@/models/entities/user';
 
 interface UserDocument extends User, Document { }
 

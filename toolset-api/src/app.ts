@@ -2,7 +2,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 import { inject, injectable } from 'inversify';
-import Routes from './routes';
+import Routes from '@/routes';
 
 @injectable()
 export default class App {

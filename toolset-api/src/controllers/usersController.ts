@@ -2,12 +2,12 @@ import bcrypt from 'bcryptjs';
 import { Request } from 'express';
 import { inject, injectable } from 'inversify';
 import jwt from 'jsonwebtoken';
-import { IUnitOfWork } from '../interfaces';
-import LoginRequest from '../models/DTOs/loginRequest';
-import LoginResponse from '../models/DTOs/loginResponse';
-import RegistrationRequest from '../models/DTOs/registrationRequest';
-import { BadRequestResponse, OkResponse } from '../models/types/controllerResponses';
-import { ControllerRequest } from '../models/types/controllerRequest';
+import { IUnitOfWork } from '@/interfaces';
+import LoginRequest from '@/models/DTOs/loginRequest';
+import LoginResponse from '@/models/DTOs/loginResponse';
+import RegistrationRequest from '@/models/DTOs/registrationRequest';
+import { BadRequestResponse, OkResponse } from '@/models/types/controllerResponses';
+import { ControllerRequest } from '@/models/types/controllerRequest';
 
 @injectable()
 export default class UsersController {

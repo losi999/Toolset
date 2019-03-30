@@ -1,7 +1,7 @@
 import { DynamoDB } from 'aws-sdk';
 import { injectable } from 'inversify';
-import { IUnitOfWork } from '../../interfaces';
-import UserRepository from './repositories/userRepository';
+import { IUnitOfWork } from '@/interfaces';
+import UserRepository from '@/database/dynamodb/repositories/userRepository';
 
 @injectable()
 export default class UnitOfWork implements IUnitOfWork {
