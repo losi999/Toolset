@@ -1,11 +1,14 @@
-module.exports = {
+const path = require('path');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+
+module.exports = (env, options) => ({
     entry: "./src/app.ts",
     output: {
-        filename: "app.[contenthash:4].js",
-        path: __dirname + "/dist",
+        filename: options.mode !== 'production' ? 'app.js' : 'app.[contenthash:4].js',
+        path: path.join(__dirname, options.mode !== 'production' ? 'dist' : 'build'),
     },
     mode: 'development',
-    devtool: "source-map",
+    devtool: options.mode !== 'production' ? 'inline-source-map ' : '',
 
     resolve: {
         extensions: [".ts", ".js", ".json"]
@@ -20,8 +23,9 @@ module.exports = {
         ]
     },
     plugins: [
+        new CleanWebpackPlugin(),
     ],
     externals: {
         "angular": "angular"
     },
-};
+});
