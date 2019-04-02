@@ -14,6 +14,8 @@ class AppModule {
 }
 
 const appModule = angular.module('toolset', [authModule], AppModule);
-appModule.component('app', AppComponent);
 
+appModule.constant('apiUrl', 'http://localhost:81');
+
+appModule.component('app', AppComponent);
 appModule.component('navigationBar', NavigationBarComponent);

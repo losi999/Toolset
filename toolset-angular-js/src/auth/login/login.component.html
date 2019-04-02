@@ -1,15 +1,26 @@
-<form>
-    <div>
-        <label>
-            Username
-            <input placeholder="Username" type="text">
-        </label>
-    </div>
-    <div>
-        <label>
-            Password
-            <input placeholder="Password" type="password">
-        </label>
-    </div>
-    <button type="submit">Send</button>
+<form ng-submit="$ctrl.onSubmit()">
+  <div>
+    <label>
+      Username
+      <input placeholder="Username" type="text" ng-model="$ctrl.formValues.username">
+    </label>
+  </div>
+  <div>
+    <label>
+      Password
+      <input placeholder="Password" type="password" ng-model="$ctrl.formValues.password">
+    </label>
+  </div>
+  <ul>
+    <li ng-if="$ctrl.formValidations.username.required">
+      Username is required
+    </li>
+    <li ng-if="$ctrl.formValidations.password.required">
+      Password is required
+    </li>
+    <li ng-if="$ctrl.formValidations.form.invalidCredentials">
+      Invalid login credentials
+    </li>
+  </ul>
+  <button type="submit">Send</button>
 </form>

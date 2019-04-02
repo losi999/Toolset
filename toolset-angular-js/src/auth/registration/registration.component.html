@@ -1,27 +1,47 @@
-<form>
+<form ng-submit="$ctrl.onSubmit()" name="registrationForm">
   <div>
     <label>
       Username
-      <input placeholder="Username" type="text">
+      <input placeholder="Username" name="username" type="text" ng-model="$ctrl.formValues.username"
+        ng-change="$ctrl.onInputChange()">
     </label>
+    <span ng-if="registrationForm.username.$touched || registrationForm.$submitted">
+      <span ng-if="$ctrl.formValidations.username.minLength">Username must be at least 4 characters
+        long</span>
+    </span>
   </div>
   <div>
     <label>
       Password
-      <input placeholder="Password" type="password">
+      <input placeholder="Password" name="password" type="password" ng-model="$ctrl.formValues.password"
+        ng-change="$ctrl.onInputChange()">
     </label>
+    <span ng-if="registrationForm.password.$touched || registrationForm.$submitted">
+      <span ng-if="$ctrl.formValidations.password.minLength">Password must be at least 4 characters
+        long</span>
+      <span ng-if="$ctrl.formValidations.password.strength === 'weak'">Password is weak</span>
+      <span ng-if="$ctrl.formValidations.password.strength === 'medium'">Password is medium</span>
+    </span>
   </div>
   <div>
     <label>
       Password confirm
-      <input placeholder="Password confirm" type="password">
+      <input placeholder="Password confirm" name="passwordConfirm" type="password"
+        ng-model="$ctrl.formValues.passwordConfirm" ng-change="$ctrl.onInputChange()">
     </label>
+    <span ng-if="registrationForm.passwordConfirm.$touched || registrationForm.$submitted">
+      <span ng-if="$ctrl.formValidations.passwordConfirm.passwordsNotMatch">Passwords do not match</span>
+    </span>
   </div>
   <div>
     <label>
       Display name
-      <input placeholder="Display name" type="text">
+      <input placeholder="Display name" name="displayName" type="text" ng-model="$ctrl.formValues.displayName"
+        ng-change="$ctrl.onInputChange()">
     </label>
+    <span ng-if="registrationForm.displayName.$touched || registrationForm.$submitted">
+      <span ng-if="$ctrl.formValidations.displayName.required">Display name is required</span>
+    </span>
   </div>
   <button type="submit">Send</button>
 </form>
