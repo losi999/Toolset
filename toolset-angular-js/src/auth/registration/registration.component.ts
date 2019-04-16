@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-import template from '@/auth/registration/registration.component.html';
+import template from './registration.component.html';
 import AuthValidatorService from '@/auth/auth-validator.service';
 import AuthWebService from '@/auth/auth-web.service';
 import { RegistrationFormValidations, RegistrationFormValues } from '@/auth/registration/registration.types';

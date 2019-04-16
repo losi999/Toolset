@@ -1,8 +1,8 @@
 import angular from 'angular';
 
-import template from '@/app.component.html';
+import template from './app.component.html';
 
-class AppController implements angular.IComponentController {
+export class AppController implements angular.IComponentController {
     constructor() { }
 }
 

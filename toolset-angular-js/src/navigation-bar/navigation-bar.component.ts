@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-import template from '@/navigation-bar/navigation-bar.component.html';
+import template from './navigation-bar.component.html';
 
 class NavigationBarController implements angular.IComponentController {
     constructor() { }

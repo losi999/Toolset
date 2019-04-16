@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-import template from '@/auth/login/login.component.html';
+import template from './login.component.html';
 import AuthValidatorService from '@/auth/auth-validator.service';
 import { LoginFormValidations, LoginFormValues } from '@/auth/login/login.types';
 import AuthWebService from '@/auth/auth-web.service';
