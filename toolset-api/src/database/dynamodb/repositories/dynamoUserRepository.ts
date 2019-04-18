@@ -1,8 +1,8 @@
 import { DynamoDB } from 'aws-sdk';
-import { IUserRepository } from '@/interfaces';
+import { UserRepository } from '@/interfaces';
 import { User } from '@/models/entities/user';
 
-export default class UserRepository implements IUserRepository {
+export default class DynamoUserRepository implements UserRepository {
     constructor(private dynamoDb: DynamoDB.DocumentClient) { }
 
     public async createUser(user: User): Promise<void> {

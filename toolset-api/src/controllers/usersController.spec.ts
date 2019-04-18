@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import sinon from 'sinon';
 import UsersController from '@/controllers/usersController';
-import { IUnitOfWork } from '@/interfaces';
+import { UnitOfWork } from '@/interfaces';
 import LoginResponse from '@/models/DTOs/loginResponse';
 import { Request } from 'express';
 import { ControllerRequest } from '@/models/types/controllerRequest';
@@ -15,7 +15,7 @@ import { BadRequestResponse } from '@/models/types/controllerResponses';
 
 describe('Users controller', () => {
     let controller: UsersController;
-    let mockUnitOfWork: IUnitOfWork;
+    let mockUnitOfWork: UnitOfWork;
     let stubGetUserByUsername: sinon.SinonStub;
     let stubCreateUser: sinon.SinonStub;
     let stubBcryptComparySync: sinon.SinonStub;
