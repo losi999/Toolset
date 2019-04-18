@@ -1,5 +1,5 @@
 import { Document, model, Schema } from 'mongoose';
-import { IUserRepository } from '@/interfaces';
+import { UserRepository } from '@/interfaces';
 import { User } from '@/models/entities/user';
 
 interface UserDocument extends User, Document { }
@@ -40,7 +40,7 @@ const UserSchema = new Schema(
 
 const UserModel = model<UserDocument>('users', UserSchema);
 
-export default class UserRepository implements IUserRepository {
+export default class MongoUserRepository implements UserRepository {
     public async createUser(user: User): Promise<void> {
         await UserModel.create(user);
     }

@@ -1,17 +1,17 @@
 import { DynamoDB } from 'aws-sdk';
 import { injectable } from 'inversify';
-import { IUnitOfWork } from '@/interfaces';
-import UserRepository from '@/database/dynamodb/repositories/userRepository';
+import { UnitOfWork } from '@/interfaces';
+import DynamoUserRepository from '@/database/dynamodb/repositories/dynamoUserRepository';
 
 @injectable()
-export default class UnitOfWork implements IUnitOfWork {
+export default class DynamoUnitOfWork implements UnitOfWork {
 
-    public user: UserRepository;
+    public user: DynamoUserRepository;
     constructor() {
         const dynamoDb = new DynamoDB.DocumentClient({
             endpoint: process.env.DYNAMO_URL,
         });
         console.log(`Connected to DynamoDB: ${process.env.DYNAMO_URL}`);
-        this.user = new UserRepository(dynamoDb);
+        this.user = new DynamoUserRepository(dynamoDb);
     }
 }

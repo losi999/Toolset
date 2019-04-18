@@ -1,10 +1,10 @@
 import { User } from '@/models/entities/user';
 
-export interface IUserRepository {
+export interface UserRepository {
     createUser(user: User): Promise<void>;
     getUserByUsername(username: string): Promise<User | null>;
 }
 
-export interface IUnitOfWork {
-    user: IUserRepository;
+export interface UnitOfWork {
+    user: UserRepository;
 }

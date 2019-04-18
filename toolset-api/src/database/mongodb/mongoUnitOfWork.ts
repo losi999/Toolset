@@ -1,11 +1,11 @@
 import { injectable } from 'inversify';
 import mongoose from 'mongoose';
-import { IUnitOfWork, IUserRepository } from '@/interfaces';
-import UserRepository from '@/database/mongodb/repositories/userRepository';
+import { UnitOfWork, UserRepository } from '@/interfaces';
+import MongoUserRepository from '@/database/mongodb/repositories/mongoUserRepository';
 
 @injectable()
-export default class UnitOfWork implements IUnitOfWork {
-    public user: IUserRepository;
+export default class MongoUnitOfWork implements UnitOfWork {
+    public user: UserRepository;
 
     constructor() {
         mongoose.connect(`${process.env.MONGO_URL}/${process.env.MONGO_DATABASE}`, {
@@ -19,6 +19,6 @@ export default class UnitOfWork implements IUnitOfWork {
             }
         });
 
-        this.user = new UserRepository();
+        this.user = new MongoUserRepository();
     }
 }

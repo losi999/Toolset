@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import { Request } from 'express';
 import { inject, injectable } from 'inversify';
 import jwt from 'jsonwebtoken';
-import { IUnitOfWork } from '@/interfaces';
+import { UnitOfWork } from '@/interfaces';
 import LoginRequest from '@/models/DTOs/loginRequest';
 import LoginResponse from '@/models/DTOs/loginResponse';
 import RegistrationRequest from '@/models/DTOs/registrationRequest';
@@ -11,7 +11,7 @@ import { ControllerRequest } from '@/models/types/controllerRequest';
 
 @injectable()
 export default class UsersController {
-    constructor(@inject('unitOfWork') private unitOfWork: IUnitOfWork) { }
+    constructor(@inject('unitOfWork') private unitOfWork: UnitOfWork) { }
 
     public login(): (req: ControllerRequest<LoginRequest>) => Promise<LoginResponse | BadRequestResponse> {
         return async (req) => {
