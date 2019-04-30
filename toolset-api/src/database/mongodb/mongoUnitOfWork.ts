@@ -1,11 +1,11 @@
 import { injectable } from 'inversify';
 import mongoose from 'mongoose';
-import { UnitOfWork, UserRepository } from '@/interfaces';
+import { UnitOfWork, UserRepository } from '@/models/types/interfaces';
 import MongoUserRepository from '@/database/mongodb/repositories/mongoUserRepository';
 
 @injectable()
 export default class MongoUnitOfWork implements UnitOfWork {
-    public user: UserRepository;
+    public readonly user: UserRepository;
 
     constructor() {
         mongoose.connect(`${process.env.MONGO_URL}/${process.env.MONGO_DATABASE}`, {

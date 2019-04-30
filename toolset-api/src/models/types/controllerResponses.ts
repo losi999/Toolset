@@ -1,27 +1,24 @@
-export interface ControllerResponse {
-    statusCode: number;
-    body?: any;
-}
+export type ResponseBase<N = number, T = any> = {
+    statusCode: N;
+    body?: T;
+};
 
-export interface OkResponse extends ControllerResponse {
-    statusCode: 200;
-}
+type ResponseWithoutBody<N> = Pick<ResponseBase<N>, 'statusCode'>;
+type ResponseWithBody<N, T> = Required<ResponseBase<N, T>>;
 
-interface ErrorResponseBody {
-    error: string;
-}
+type BadRequestResponseBody = {
+    errorCode: string;
+    data?: any;
+};
 
-export interface BadRequestResponse extends ControllerResponse {
-    statusCode: 400;
-    body: ErrorResponseBody;
-}
+export type BadRequestResponse = ResponseWithBody<400, BadRequestResponseBody>;
+export type OkResponse = ResponseWithoutBody<200>;
+export type UnauthorizedResponse = ResponseWithoutBody<401>;
+export type ForbiddenResponse = ResponseWithoutBody<403>;
+export type InternalServerErrorResponse = ResponseWithoutBody<500>;
 
-export interface UnauthorizedResponse extends ControllerResponse {
-    statusCode: 401;
-    body: ErrorResponseBody;
-}
+type LoginResponseBody = {
+    token: string;
+};
 
-export interface ForbiddenResponse extends ControllerResponse {
-    statusCode: 403;
-    body: ErrorResponseBody;
-}
+export type LoginResponse = ResponseWithBody<200, LoginResponseBody>;

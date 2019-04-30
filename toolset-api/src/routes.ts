@@ -2,9 +2,9 @@ import { Application, NextFunction, Request, Response } from 'express';
 import { injectable } from 'inversify';
 import AuthController from '@/controllers/authController';
 import UsersController from '@/controllers/usersController';
-import { ControllerResponse } from '@/models/types/controllerResponses';
+import { ResponseBase } from '@/models/types/controllerResponses';
 
-const controllerToRoute = (controllerAction: (request: Request) => Promise<ControllerResponse | void>) => {
+const controllerToRoute = (controllerAction: (request: Request) => Promise<ResponseBase | void>) => {
     return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const resp = await controllerAction(req);
@@ -35,7 +35,9 @@ export default class Routes {
             .post(controllerToRoute(this.usersController.registration()));
 
         app.route('/profile')
-            .get(controllerToRoute(this.authController.authorize('user')),
-                controllerToRoute(this.usersController.profile()));
+            .get(
+                controllerToRoute(this.authController.authorize('user')),
+                controllerToRoute(this.usersController.profile()),
+            );
     }
 }
