@@ -1,199 +1,196 @@
 import 'reflect-metadata';
-import { expect } from 'chai';
-import 'mocha';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import sinon from 'sinon';
 import UsersController from '@/controllers/usersController';
-import { UnitOfWork } from '@/interfaces';
-import LoginResponse from '@/models/DTOs/loginResponse';
-import { Request } from 'express';
-import { ControllerRequest } from '@/models/types/controllerRequest';
-import LoginRequest from '@/models/DTOs/loginRequest';
-import RegistrationRequest from '@/models/DTOs/registrationRequest';
-import { BadRequestResponse } from '@/models/types/controllerResponses';
+import { UnitOfWork, TokenService, PasswordService, SchemaValidatorService } from '@/models/types/interfaces';
+import { ControllerRequest, LoginRequest, RegistrationRequest } from '@/models/types/controllerRequest';
+import { BadRequestResponse, LoginResponse, OkResponse } from '@/models/types/controllerResponses';
 
 describe('Users controller', () => {
     let controller: UsersController;
     let mockUnitOfWork: UnitOfWork;
-    let stubGetUserByUsername: sinon.SinonStub;
-    let stubCreateUser: sinon.SinonStub;
-    let stubBcryptComparySync: sinon.SinonStub;
-    let stubJwtSign: sinon.SinonStub;
+    let mockTokenService: TokenService;
+    let mockPasswordService: PasswordService;
+    let mockSchemaValidatorService: SchemaValidatorService;
+    let mockGetUserByUsername: jest.Mock;
+    let mockCreateUser: jest.Mock;
+    let mockGenerateToken: jest.Mock;
+    let mockCheckPassword: jest.Mock;
+    let mockEncryptPassword: jest.Mock;
+    let mockValidate: jest.Mock;
 
     beforeEach(() => {
-        stubGetUserByUsername = sinon.stub();
-        stubCreateUser = sinon.stub();
-        stubBcryptComparySync = sinon.stub(bcrypt, 'compareSync');
-        stubJwtSign = sinon.stub(jwt, 'sign');
-        sinon.stub(bcrypt, 'hashSync');
-        mockUnitOfWork = {
-            user: {
-                getUserByUsername: stubGetUserByUsername,
-                createUser: stubCreateUser,
-            },
-        };
-        controller = new UsersController(mockUnitOfWork);
-    });
+        mockGetUserByUsername = jest.fn();
+        mockCreateUser = jest.fn();
+        mockGenerateToken = jest.fn();
+        mockCheckPassword = jest.fn();
+        mockEncryptPassword = jest.fn();
+        mockValidate = jest.fn();
 
-    afterEach(() => {
-        sinon.restore();
+        mockUnitOfWork = new (jest.fn<UnitOfWork, undefined[]>(() => ({
+            user: {
+                createUser: mockCreateUser,
+                getUserByUsername: mockGetUserByUsername,
+            },
+        })))();
+
+        mockSchemaValidatorService = new (jest.fn<SchemaValidatorService, undefined[]>(() => ({
+            validate: mockValidate,
+        })))();
+
+        mockTokenService = new (jest.fn<Partial<TokenService>, undefined[]>(() => ({
+            generateToken: mockGenerateToken,
+        })))() as TokenService;
+
+        mockPasswordService = new (jest.fn<Partial<PasswordService>, undefined[]>(() => ({
+            checkPassword: mockCheckPassword,
+            encryptPassword: mockEncryptPassword,
+        })))() as PasswordService;
+        controller = new UsersController(mockUnitOfWork, mockSchemaValidatorService, mockTokenService, mockPasswordService);
     });
 
     describe('Login action', () => {
-        let request: ControllerRequest<LoginRequest>;
+        it('should respond with HTTP 400 if request body is invalid', async () => {
+            const validationError = 'validationError';
+            mockValidate.mockReturnValue(validationError);
 
-        beforeEach(() => {
-            request = {} as ControllerRequest<LoginRequest>;
+            const request = {
+                body: {},
+            } as ControllerRequest<LoginRequest>;
+
+            const response = await controller.login()(request) as BadRequestResponse;
+            expect(response.statusCode).toBe(400);
+            expect(response.body.errorCode).toBe('LG001');
+            expect(response.body.data).toBe(validationError);
         });
 
-        it('should return HTTP 400 if no username is provided', async () => {
-            request.body = {
-                username: '',
-                password: 'password123',
-            };
+        it('should return HTTP 400 if user not found', async () => {
+            mockValidate.mockReturnValue(undefined);
+
+            mockGetUserByUsername.mockResolvedValue(null);
+
+            const request = {
+                body: { username: 'nonExistingUser' },
+            } as ControllerRequest<LoginRequest>;
+
             const response = await controller.login()(request) as BadRequestResponse;
-
-            expect(response.statusCode).to.equal(400);
-            expect(response.body.error).to.equal('Invalid request body');
-        });
-
-        it('should return HTTP 400 if no password is provided', async () => {
-            request.body = {
-                username: 'user123',
-                password: '',
-            };
-            const response = await controller.login()(request) as BadRequestResponse;
-
-            expect(response.statusCode).to.equal(400);
-            expect(response.body.error).to.equal('Invalid request body');
-        });
-
-        it('should return HTTP 400 if username not found', async () => {
-            stubGetUserByUsername.resolves(undefined);
-            request.body = {
-                username: 'nonExistingUser',
-                password: 'password123',
-            };
-            const response = await controller.login()(request) as BadRequestResponse;
-
-            expect(response.statusCode).to.equal(400);
-            expect(response.body.error).to.equal('User doesn\'t exist');
+            expect(response.statusCode).toBe(400);
+            expect(response.body.errorCode).toBe('LG002');
         });
 
         it('should return HTTP 400 if password is incorrect', async () => {
-            stubGetUserByUsername.resolves({
-                password: 'password321',
-            });
-            stubBcryptComparySync.returns(false);
-            request.body = {
-                username: 'someUser',
-                password: 'password123',
-            };
-            const response = await controller.login()(request) as BadRequestResponse;
+            mockValidate.mockReturnValue(undefined);
 
-            expect(response.statusCode).to.equal(400);
-            expect(response.body.error).to.equal('Invalid login');
+            mockGetUserByUsername.mockResolvedValue({
+                password: 'encryptedPassword',
+            });
+
+            mockCheckPassword.mockReturnValue(false);
+
+            const request = {
+                body: { password: 'plainPassword' },
+            } as ControllerRequest<LoginRequest>;
+
+            const response = await controller.login()(request) as BadRequestResponse;
+            expect(response.statusCode).toBe(400);
+            expect(response.body.errorCode).toBe('LG002');
         });
 
         it('should return with a token if everything is valid', async () => {
-            const expectedToken = 'someValid.jwt.token';
-            stubGetUserByUsername.resolves({
-                username: 'someUser',
-                password: 'password123',
-                displayName: 'Jeremy',
-                role: 'user',
+            mockValidate.mockReturnValue(undefined);
+
+            const username = 'user123';
+            const displayName = 'John';
+            const role = 'user';
+            mockGetUserByUsername.mockResolvedValue({
+                username,
+                displayName,
+                role,
+                password: 'encryptedPassword',
             });
-            stubBcryptComparySync.returns(true);
-            stubJwtSign.callsFake(() => expectedToken);
 
-            request.body = {
-                username: 'someUser',
-                password: 'password123',
-            };
+            mockCheckPassword.mockReturnValue(true);
+
+            const expectedToken = 'some.valid.jwt';
+            mockGenerateToken.mockReturnValue(expectedToken);
+
+            const request = {
+                body: { password: 'plainPassword' },
+            } as ControllerRequest<LoginRequest>;
+
             const response = await controller.login()(request) as LoginResponse;
-
-            expect(response.statusCode).to.equal(200);
-            expect(response.body.token).to.equal(expectedToken);
+            expect(response.statusCode).toBe(200);
+            expect(response.body.token).toBe(expectedToken);
+            expect(mockGenerateToken).toHaveBeenCalledWith({
+                username,
+                displayName,
+                role,
+            });
         });
     });
 
     describe('Registration action', () => {
-        let request: ControllerRequest<RegistrationRequest>;
+        it('should respond with HTTP 400 if request body is invalid', async () => {
+            const validationError = 'validationError';
+            mockValidate.mockReturnValue(validationError);
 
-        beforeEach(() => {
-            request = {} as ControllerRequest<RegistrationRequest>;
-        });
+            const request = {
+                body: {},
+            } as ControllerRequest<RegistrationRequest>;
 
-        it('should return HTTP 400 if no username is provided', async () => {
-            request.body = {
-                username: '',
-                password: 'password123',
-                displayName: 'Jack',
-            };
             const response = await controller.registration()(request) as BadRequestResponse;
-
-            expect(response.statusCode).to.equal(400);
-            expect(response.body.error).to.equal('Invalid request body');
-        });
-
-        it('should return HTTP 400 if no password is provided', async () => {
-            request.body = {
-                username: 'user4321',
-                password: '',
-                displayName: 'Jack',
-            };
-            const response = await controller.registration()(request) as BadRequestResponse;
-
-            expect(response.statusCode).to.equal(400);
-            expect(response.body.error).to.equal('Invalid request body');
-        });
-
-        it('should return HTTP 400 if no display name is provided', async () => {
-            request.body = {
-                username: 'user4321',
-                password: 'password123',
-                displayName: '',
-            };
-            const response = await controller.registration()(request) as BadRequestResponse;
-
-            expect(response.statusCode).to.equal(400);
-            expect(response.body.error).to.equal('Invalid request body');
+            expect(response.statusCode).toBe(400);
+            expect(response.body.errorCode).toBe('RG001');
+            expect(response.body.data).toBe(validationError);
         });
 
         it('should return HTTP 400 if username is taken', async () => {
-            stubCreateUser.rejects({});
+            mockValidate.mockReturnValue(undefined);
 
-            request.body = {
-                username: 'user4321',
-                password: 'password123',
-                displayName: 'Jack',
-            };
+            mockCreateUser.mockRejectedValue({});
+
+            const request = {
+                body: {},
+            } as ControllerRequest<RegistrationRequest>;
+
             const response = await controller.registration()(request) as BadRequestResponse;
-
-            expect(response.statusCode).to.equal(400);
-            expect(response.body.error).to.equal('Username already exists');
+            expect(response.statusCode).toBe(400);
+            expect(response.body.errorCode).toBe('RG002');
         });
 
         it('should return HTTP 200 if everything is valid', async () => {
-            stubCreateUser.resolves({});
+            mockValidate.mockReturnValue(undefined);
 
-            request.body = {
-                username: 'user4321',
-                password: 'password123',
-                displayName: 'Jack',
-            };
-            const response = await controller.registration()(request);
+            mockCreateUser.mockResolvedValue({});
 
-            expect(response.statusCode).to.equal(200);
+            const username = 'user123';
+            const password = 'password';
+            const displayName = 'John';
+            const request = {
+                body: {
+                    username,
+                    password,
+                    displayName,
+                },
+            } as ControllerRequest<RegistrationRequest>;
+
+            const encryptedPassword = 'encryptedPassword';
+            mockEncryptPassword.mockReturnValue(encryptedPassword);
+
+            const response = await controller.registration()(request) as OkResponse;
+            expect(response.statusCode).toBe(200);
+            expect(mockCreateUser).toHaveBeenCalledWith({
+                username,
+                displayName,
+                role: 'user',
+                password: encryptedPassword,
+            });
         });
     });
 
     describe('Profile action', () => {
         it('should return HTTP 200', async () => {
-            const response = await controller.profile()({} as Request);
+            const response = await controller.profile()({} as ControllerRequest<undefined>);
 
-            expect(response.statusCode).to.equal(200);
+            expect(response.statusCode).toBe(200);
         });
     });
 });

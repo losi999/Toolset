@@ -2,6 +2,7 @@ import { injectable } from 'inversify';
 import mongoose from 'mongoose';
 import { UnitOfWork, UserRepository } from '@/models/types/interfaces';
 import MongoUserRepository from '@/database/mongodb/repositories/mongoUserRepository';
+import { UserDocument, UserSchema } from '@/database/mongodb/models/userModel';
 
 @injectable()
 export default class MongoUnitOfWork implements UnitOfWork {
@@ -19,6 +20,8 @@ export default class MongoUnitOfWork implements UnitOfWork {
             }
         });
 
-        this.user = new MongoUserRepository();
+        const userModel = mongoose.model<UserDocument>('users', UserSchema);
+
+        this.user = new MongoUserRepository(userModel);
     }
 }

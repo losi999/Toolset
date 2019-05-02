@@ -2,7 +2,7 @@ import { injectable, inject } from 'inversify';
 import { UnauthorizedResponse, ForbiddenResponse } from '@/models/types/controllerResponses';
 import { ControllerRequest } from '@/models/types/controllerRequest';
 import { TokenService } from '@/models/types/interfaces';
-import { INJECTABLES } from '@/inversify.config';
+import { INJECTABLES } from '@/models/types/types';
 
 @injectable()
 export default class AuthController {

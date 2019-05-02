@@ -20,7 +20,7 @@ export default class DynamoUserRepository implements UserRepository {
             ExpressionAttributeValues: {
                 ':value': username,
             },
-        }).promise()).Items || [];
+        }).promise()).Items;
 
         return users[0] as User;
     }

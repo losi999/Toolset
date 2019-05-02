@@ -8,8 +8,10 @@
         ],
         "strict": true,
         "moduleResolution": "node",
+        "strictNullChecks": false,
         "types": [
-            "reflect-metadata"
+            "reflect-metadata",
+            "jest"
         ],
         "rootDir": "src",
         "sourceMap": true,

@@ -3,19 +3,26 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test": "mocha --opts .mochaopts",
+    "test": "jest",
     "test:dev": "mocha --opts .mochaopts --watch --watch-extensions ts",
     "coverage": "nyc npm test",
     "typedoc": "typedoc --options typedoc.config.js src/",
     "lint": "tslint -c tslint.json src/**/*.{ts,tsx}",
     "build:dev": "webpack --watch",
     "build:prod": "webpack --mode production",
-    "prestart": "webpack",
     "start": "cd ../toolset-environment && docker-compose up"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
+    "@types/bcryptjs": "2.4.2",
+    "@types/cors": "2.8.4",
+    "@types/express": "4.16.1",
+    "@types/jest": "^24.0.12",
+    "@types/jsonwebtoken": "8.3.0",
+    "@types/mongoose": "5.3.10",
+    "@types/node": "^11.13.8",
     "ajv": "^6.10.0",
     "aws-sdk": "^2.395.0",
     "bcryptjs": "2.4.3",
@@ -23,49 +30,46 @@
     "cors": "2.8.5",
     "express": "4.16.4",
     "inversify": "5.0.1",
+    "jest": "^24.7.1",
     "jsonwebtoken": "8.4.0",
     "mongoose": "5.4.7",
-    "reflect-metadata": "0.1.13"
-  },
-  "devDependencies": {
-    "@types/bcryptjs": "2.4.2",
-    "@types/chai": "^4.1.7",
-    "@types/cors": "2.8.4",
-    "@types/express": "4.16.1",
-    "@types/jsonwebtoken": "8.3.0",
-    "@types/mocha": "^5.2.6",
-    "@types/mongoose": "5.3.10",
-    "@types/sinon": "^7.0.11",
-    "chai": "^4.2.0",
-    "mocha": "^5.2.0",
     "nodemon": "1.18.9",
-    "nyc": "^13.2.0",
-    "sinon": "^7.2.3",
+    "reflect-metadata": "0.1.13",
     "source-map-support": "^0.5.10",
+    "ts-jest": "^24.0.2",
     "ts-loader": "5.3.3",
     "ts-node": "^8.0.2",
-    "tsconfig-paths": "^3.8.0",
     "tslint": "^5.12.1",
     "typedoc": "^0.14.2",
     "typescript": "3.2.4",
     "webpack": "4.29.0",
     "webpack-cli": "3.2.1"
   },
-  "nyc": {
-    "include": [
-      "src/**/*.ts"
+  "jest": {
+    "transform": {
+      "^.+\\.ts?$": "ts-jest"
+    },
+    "testRegex": ".*\\.spec\\.ts$",
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.{ts,tsx}",
+      "!**/node_modules/**",
+      "!src/*.ts"
     ],
-    "exclude": [
-      "src/**/*.spec.ts",
-      "src/inversify.config.ts",
-      "src/server.ts"
-    ],
-    "extension": [
-      ".ts"
-    ],
-    "reporter": [
-      "text-summary",
+    "coverageReporters": [
       "html"
+    ],
+    "moduleNameMapper": {
+      "^@/(.+)$": "<rootDir>/src/$1"
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
     ]
   }
 }

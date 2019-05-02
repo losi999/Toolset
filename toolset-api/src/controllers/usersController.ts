@@ -1,32 +1,30 @@
 import { inject, injectable } from 'inversify';
-import { UnitOfWork, TokenService, PasswordService } from '@/models/types/interfaces';
+import { UnitOfWork, TokenService, PasswordService, SchemaValidatorService } from '@/models/types/interfaces';
 import { ControllerRequest, LoginRequest, RegistrationRequest } from '@/models/types/controllerRequest';
-import { Ajv } from 'ajv';
 import loginSchema from '@/schemas/login.json';
 import registrationSchema from '@/schemas/registration.json';
 import { LoginResponse, BadRequestResponse, OkResponse } from '@/models/types/controllerResponses';
-import { INJECTABLES } from '@/inversify.config';
+import { INJECTABLES } from '@/models/types/types';
 
 @injectable()
 export default class UsersController {
     constructor(
         @inject(INJECTABLES.unitOfWork) private unitOfWork: UnitOfWork,
-        @inject(INJECTABLES.ajv) private validator: Ajv,
+        @inject(INJECTABLES.ajvSchemaValidatorService) private schemaValidator: SchemaValidatorService,
         @inject(INJECTABLES.tokenService) private tokenService: TokenService,
         @inject(INJECTABLES.passwordService) private passwordService: PasswordService,
     ) { }
 
     public login(): (req: ControllerRequest<LoginRequest>) => Promise<LoginResponse | BadRequestResponse> {
         return async (req) => {
-            const validate = this.validator.compile(loginSchema);
-            const valid = validate(req.body);
+            const validationError = this.schemaValidator.validate(loginSchema, req.body);
 
-            if (!valid) {
+            if (validationError) {
                 return {
                     statusCode: 400,
                     body: {
                         errorCode: 'LG001',
-                        data: validate.errors,
+                        data: validationError,
                     },
                 };
             }
@@ -67,14 +65,14 @@ export default class UsersController {
 
     public registration(): (req: ControllerRequest<RegistrationRequest>) => Promise<OkResponse | BadRequestResponse> {
         return async (req) => {
-            const validate = this.validator.compile(registrationSchema);
-            const valid = validate(req.body);
+            const validationError = this.schemaValidator.validate(registrationSchema, req.body);
 
-            if (!valid) {
+            if (validationError) {
                 return {
                     statusCode: 400,
                     body: {
                         errorCode: 'RG001',
+                        data: validationError,
                     },
                 };
             }

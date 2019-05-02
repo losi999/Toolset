@@ -19,3 +19,7 @@ export interface TokenService {
     generateToken(claims: TokenClaims): string;
     verifyToken(token: string): TokenClaims;
 }
+
+export interface SchemaValidatorService {
+    validate(schema: object, data: object): string | undefined;
+}

@@ -16,7 +16,7 @@ const controllerToRoute = (controllerAction: (request: Request) => Promise<Respo
 
         } catch (error) {
             console.error('unexpected error', error);
-            res.status(error.status || 500).send(error.message);
+            res.sendStatus(500);
         }
     };
 };
