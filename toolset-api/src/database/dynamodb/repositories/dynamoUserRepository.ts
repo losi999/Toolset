@@ -1,5 +1,5 @@
 import { DynamoDB } from 'aws-sdk';
-import { UserRepository } from '@/interfaces';
+import { UserRepository } from '@/models/types/interfaces';
 import { User } from '@/models/entities/user';
 
 export default class DynamoUserRepository implements UserRepository {
@@ -20,7 +20,7 @@ export default class DynamoUserRepository implements UserRepository {
             ExpressionAttributeValues: {
                 ':value': username,
             },
-        }).promise()).Items || [];
+        }).promise()).Items;
 
         return users[0] as User;
     }

@@ -1,73 +1,77 @@
 import 'reflect-metadata';
-import 'mocha';
 import AuthController from '@/controllers/authController';
-import jwt from 'jsonwebtoken';
-import sinon from 'sinon';
+import { TokenService } from '@/models/types/interfaces';
 import { ControllerRequest } from '@/models/types/controllerRequest';
-import { expect } from 'chai';
 import { UnauthorizedResponse, ForbiddenResponse } from '@/models/types/controllerResponses';
 
 describe('Auth controller', () => {
     let controller: AuthController;
-    let stubJwtVerify: sinon.SinonStub;
-    let request: ControllerRequest<undefined>;
+    let mockTokenService: TokenService;
+    let mockVerifyToken: jest.Mock;
 
     beforeEach(() => {
-        controller = new AuthController();
-        stubJwtVerify = sinon.stub(jwt, 'verify');
-        request = {} as ControllerRequest<undefined>;
-    });
+        mockVerifyToken = jest.fn();
 
-    afterEach(() => {
-        sinon.restore();
+        mockTokenService = new (jest.fn<Partial<TokenService>, undefined[]>(() => ({
+            verifyToken: mockVerifyToken,
+        })))() as TokenService;
+
+        controller = new AuthController(mockTokenService);
     });
 
     it('should return HTTP 401 if no token if provided', async () => {
-        request.headers = {
-            authorization: undefined,
-        };
-        const response = await controller.authorize('')(request) as UnauthorizedResponse;
+        const request = {
+            headers: {
+                authorization: '',
+            },
+        } as ControllerRequest<undefined>;
 
-        expect(response.statusCode).to.equal(401);
-        expect(response.body.error).to.equal('Missing token');
+        const response = await controller.authorize('user')(request) as UnauthorizedResponse;
+        expect(response.statusCode).toBe(401);
     });
 
     it('should return HTTP 401 if an invalid token if provided', async () => {
-        request.headers = {
-            authorization: 'invalid.jwt.token',
-        };
-        stubJwtVerify.throws({});
+        const request = {
+            headers: {
+                authorization: 'invalid.jwt.token',
+            },
+        } as ControllerRequest<undefined>;
 
-        const response = await controller.authorize('')(request) as UnauthorizedResponse;
+        mockVerifyToken.mockImplementation(() => {
+            throw new Error();
+        });
 
-        expect(response.statusCode).to.equal(401);
-        expect(response.body.error).to.equal('Invalid or expired token');
+        const response = await controller.authorize('user')(request) as UnauthorizedResponse;
+        expect(response.statusCode).toBe(401);
     });
 
     it('should return HTTP 403 if user is not among given roles', async () => {
-        request.headers = {
-            authorization: 'user.jwt.token',
-        };
-        stubJwtVerify.returns({
+        const request = {
+            headers: {
+                authorization: 'user.jwt.token',
+            },
+        } as ControllerRequest<undefined>;
+
+        mockVerifyToken.mockReturnValue({
             role: 'user',
         });
 
         const response = await controller.authorize('admin')(request) as ForbiddenResponse;
-
-        expect(response.statusCode).to.equal(403);
-        expect(response.body.error).to.equal('Forbidden');
+        expect(response.statusCode).toBe(403);
     });
 
     it('should return nothing if authorization is successful', async () => {
-        request.headers = {
-            authorization: 'user.jwt.token',
-        };
-        stubJwtVerify.returns({
+        const request = {
+            headers: {
+                authorization: 'user.jwt.token',
+            },
+        } as ControllerRequest<undefined>;
+
+        mockVerifyToken.mockReturnValue({
             role: 'user',
         });
 
         const response = await controller.authorize('user')(request);
-
-        expect(response).to.equal(undefined);
-        });
+        expect(response).toBeUndefined();
+    });
 });

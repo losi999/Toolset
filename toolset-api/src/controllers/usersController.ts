@@ -1,25 +1,30 @@
-import bcrypt from 'bcryptjs';
-import { Request } from 'express';
 import { inject, injectable } from 'inversify';
-import jwt from 'jsonwebtoken';
-import { UnitOfWork } from '@/interfaces';
-import LoginRequest from '@/models/DTOs/loginRequest';
-import LoginResponse from '@/models/DTOs/loginResponse';
-import RegistrationRequest from '@/models/DTOs/registrationRequest';
-import { BadRequestResponse, OkResponse } from '@/models/types/controllerResponses';
-import { ControllerRequest } from '@/models/types/controllerRequest';
+import { UnitOfWork, TokenService, PasswordService, SchemaValidatorService } from '@/models/types/interfaces';
+import { ControllerRequest, LoginRequest, RegistrationRequest } from '@/models/types/controllerRequest';
+import loginSchema from '@/schemas/login.json';
+import registrationSchema from '@/schemas/registration.json';
+import { LoginResponse, BadRequestResponse, OkResponse } from '@/models/types/controllerResponses';
+import { INJECTABLES } from '@/models/types/types';
 
 @injectable()
 export default class UsersController {
-    constructor(@inject('unitOfWork') private unitOfWork: UnitOfWork) { }
+    constructor(
+        @inject(INJECTABLES.unitOfWork) private unitOfWork: UnitOfWork,
+        @inject(INJECTABLES.ajvSchemaValidatorService) private schemaValidator: SchemaValidatorService,
+        @inject(INJECTABLES.tokenService) private tokenService: TokenService,
+        @inject(INJECTABLES.passwordService) private passwordService: PasswordService,
+    ) { }
 
     public login(): (req: ControllerRequest<LoginRequest>) => Promise<LoginResponse | BadRequestResponse> {
         return async (req) => {
-            if (!req.body.username || !req.body.password) {
+            const validationError = this.schemaValidator.validate(loginSchema, req.body);
+
+            if (validationError) {
                 return {
                     statusCode: 400,
                     body: {
-                        error: 'Invalid request body',
+                        errorCode: 'LG001',
+                        data: validationError,
                     },
                 };
             }
@@ -29,45 +34,45 @@ export default class UsersController {
                 return {
                     statusCode: 400,
                     body: {
-                        error: 'User doesn\'t exist',
+                        errorCode: 'LG002',
                     },
                 };
             }
 
-            if (!bcrypt.compareSync(req.body.password, user.password)) {
+            if (!this.passwordService.checkPassword(req.body.password, user.password)) {
                 return {
                     statusCode: 400,
                     body: {
-                        error: 'Invalid login',
+                        errorCode: 'LG002',
                     },
                 };
             }
 
-            const claims = {
+            const token = this.tokenService.generateToken({
                 username: user.username,
                 displayName: user.displayName,
                 role: user.role,
-            };
-            const token = jwt.sign(claims, process.env.JWT_SECRET || '', {
-                expiresIn: 60 * 60 * 24,
             });
 
             return {
+                statusCode: 200,
                 body: {
                     token,
                 },
-                statusCode: 200,
             };
         };
     }
 
     public registration(): (req: ControllerRequest<RegistrationRequest>) => Promise<OkResponse | BadRequestResponse> {
         return async (req) => {
-            if (!req.body.username || !req.body.password || !req.body.displayName) {
+            const validationError = this.schemaValidator.validate(registrationSchema, req.body);
+
+            if (validationError) {
                 return {
                     statusCode: 400,
                     body: {
-                        error: 'Invalid request body',
+                        errorCode: 'RG001',
+                        data: validationError,
                     },
                 };
             }
@@ -75,13 +80,13 @@ export default class UsersController {
                 await this.unitOfWork.user.createUser({
                     ...req.body,
                     role: 'user',
-                    password: bcrypt.hashSync(req.body.password),
+                    password: this.passwordService.encryptPassword(req.body.password),
                 });
             } catch (error) {
                 return {
                     statusCode: 400,
                     body: {
-                        error: 'Username already exists',
+                        errorCode: 'RG002',
                     },
                 };
             }
@@ -92,9 +97,8 @@ export default class UsersController {
         };
     }
 
-    public profile(): (req: Request) => Promise<any> {
+    public profile(): (req: ControllerRequest<undefined>) => Promise<OkResponse> {
         return async (req) => {
-
             return {
                 statusCode: 200,
             };

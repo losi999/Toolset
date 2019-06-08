@@ -1,14 +1,14 @@
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
-import { inject, injectable } from 'inversify';
+import { injectable } from 'inversify';
 import Routes from '@/routes';
 
 @injectable()
 export default class App {
     public app: express.Application;
 
-    constructor(@inject(Routes) private routes: Routes) {
+    constructor(private routes: Routes) {
         this.app = express();
         this.config();
 

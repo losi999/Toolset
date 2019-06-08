@@ -1,52 +1,17 @@
-import { Document, model, Schema } from 'mongoose';
-import { UserRepository } from '@/interfaces';
+import { UserRepository } from '@/models/types/interfaces';
 import { User } from '@/models/entities/user';
-
-interface UserDocument extends User, Document { }
-
-const UserSchema = new Schema(
-    {
-        username: {
-            type: String,
-            required: true,
-            unique: true,
-        },
-        password: {
-            type: String,
-            required: true,
-        },
-        displayName: {
-            type: String,
-            required: true,
-        },
-        role: {
-            type: String,
-            required: true,
-            default: 'user',
-        },
-    },
-    {
-        toObject: {
-            transform: (doc): User => {
-                return {
-                    username: doc.username,
-                    password: doc.password,
-                    displayName: doc.displayName,
-                    role: doc.role,
-                };
-            },
-        },
-    });
-
-const UserModel = model<UserDocument>('users', UserSchema);
+import { Model } from 'mongoose';
+import { UserDocument } from '@/database/mongodb/models/userModel';
 
 export default class MongoUserRepository implements UserRepository {
+    constructor(private userModel: Model<UserDocument, {}>) { }
+
     public async createUser(user: User): Promise<void> {
-        await UserModel.create(user);
+        await this.userModel.create(user);
     }
 
     public getUserByUsername(username: string): Promise<User | null> {
-        return UserModel.findOne({
+        return this.userModel.findOne({
             username,
         }).exec();
     }
