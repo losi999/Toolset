@@ -1,6 +1,6 @@
 import { injectable, inject } from 'inversify';
 import { UnauthorizedResponse, ForbiddenResponse } from '@/models/types/controllerResponses';
-import { ControllerRequest } from '@/models/types/controllerRequest';
+import { ControllerActionType } from '@/models/types/controllerRequest';
 import { TokenService } from '@/models/types/interfaces';
 import { INJECTABLES } from '@/models/types/types';
 
@@ -10,7 +10,7 @@ export default class AuthController {
         @inject(INJECTABLES.tokenService) private tokenService: TokenService,
     ) { }
 
-    public authorize(...roles: string[]): (req: ControllerRequest<undefined>) => Promise<UnauthorizedResponse | ForbiddenResponse | void> {
+    public authorize(...roles: string[]): ControllerActionType<UnauthorizedResponse | ForbiddenResponse | void, undefined> {
         return async (req) => {
             const token = req.headers.authorization;
             if (!token) {

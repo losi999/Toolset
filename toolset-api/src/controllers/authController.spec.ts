@@ -1,7 +1,6 @@
 import 'reflect-metadata';
 import AuthController from '@/controllers/authController';
 import { TokenService } from '@/models/types/interfaces';
-import { ControllerRequest } from '@/models/types/controllerRequest';
 import { UnauthorizedResponse, ForbiddenResponse } from '@/models/types/controllerResponses';
 
 describe('Auth controller', () => {
@@ -24,7 +23,7 @@ describe('Auth controller', () => {
             headers: {
                 authorization: '',
             },
-        } as ControllerRequest<undefined>;
+        };
 
         const response = await controller.authorize('user')(request) as UnauthorizedResponse;
         expect(response.statusCode).toBe(401);
@@ -35,7 +34,7 @@ describe('Auth controller', () => {
             headers: {
                 authorization: 'invalid.jwt.token',
             },
-        } as ControllerRequest<undefined>;
+        };
 
         mockVerifyToken.mockImplementation(() => {
             throw new Error();
@@ -50,7 +49,7 @@ describe('Auth controller', () => {
             headers: {
                 authorization: 'user.jwt.token',
             },
-        } as ControllerRequest<undefined>;
+        };
 
         mockVerifyToken.mockReturnValue({
             role: 'user',
@@ -65,7 +64,7 @@ describe('Auth controller', () => {
             headers: {
                 authorization: 'user.jwt.token',
             },
-        } as ControllerRequest<undefined>;
+        };
 
         mockVerifyToken.mockReturnValue({
             role: 'user',

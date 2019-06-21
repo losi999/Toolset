@@ -7,6 +7,7 @@ import BcryptPasswordService from '@/services/bcryptPasswordService';
 import JwtTokenService from '@/services/jwtTokenService';
 import AjvSchemaValidatorService from '@/services/ajvSchemaValidatorService';
 import { INJECTABLES } from '@/models/types/types';
+import axios, { AxiosStatic } from 'axios';
 
 const unitOfWorks: { [key: string]: any } = {
     mongodb: MongoUnitOfWork,
@@ -20,5 +21,6 @@ container.bind<Ajv>(INJECTABLES.ajv).toDynamicValue(() => new ajv({ allErrors: t
 container.bind<PasswordService>(INJECTABLES.passwordService).to(BcryptPasswordService).inSingletonScope();
 container.bind<TokenService>(INJECTABLES.tokenService).to(JwtTokenService).inSingletonScope();
 container.bind<SchemaValidatorService>(INJECTABLES.ajvSchemaValidatorService).to(AjvSchemaValidatorService).inSingletonScope();
+container.bind<AxiosStatic>(INJECTABLES.axios).toConstantValue(axios);
 
 export default container;

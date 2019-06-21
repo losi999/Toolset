@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { UnitOfWork, TokenService, PasswordService, SchemaValidatorService } from '@/models/types/interfaces';
-import { ControllerRequest, LoginRequest, RegistrationRequest } from '@/models/types/controllerRequest';
+import { ControllerActionType, LoginBody, RegistrationBody } from '@/models/types/controllerRequest';
 import loginSchema from '@/schemas/login.json';
 import registrationSchema from '@/schemas/registration.json';
 import { LoginResponse, BadRequestResponse, OkResponse } from '@/models/types/controllerResponses';
@@ -15,7 +15,7 @@ export default class UsersController {
         @inject(INJECTABLES.passwordService) private passwordService: PasswordService,
     ) { }
 
-    public login(): (req: ControllerRequest<LoginRequest>) => Promise<LoginResponse | BadRequestResponse> {
+    public login(): ControllerActionType<LoginResponse | BadRequestResponse, LoginBody> {
         return async (req) => {
             const validationError = this.schemaValidator.validate(loginSchema, req.body);
 
@@ -63,7 +63,7 @@ export default class UsersController {
         };
     }
 
-    public registration(): (req: ControllerRequest<RegistrationRequest>) => Promise<OkResponse | BadRequestResponse> {
+    public registration(): ControllerActionType<OkResponse | BadRequestResponse, RegistrationBody> {
         return async (req) => {
             const validationError = this.schemaValidator.validate(registrationSchema, req.body);
 
@@ -91,14 +91,6 @@ export default class UsersController {
                 };
             }
 
-            return {
-                statusCode: 200,
-            };
-        };
-    }
-
-    public profile(): (req: ControllerRequest<undefined>) => Promise<OkResponse> {
-        return async (req) => {
             return {
                 statusCode: 200,
             };
