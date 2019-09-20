@@ -2,6 +2,9 @@ const path = require('path');
 
 module.exports = (env, options) => {
     return {
+        watchOptions: {
+            aggregateTimeout: 1000,
+        },
         entry: './src/server.ts',
         target: 'node',
         devtool: options.mode !== 'production' ? 'inline-source-map ' : '',

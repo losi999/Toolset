@@ -25,12 +25,12 @@ describe('Users controller', () => {
         mockEncryptPassword = jest.fn();
         mockValidate = jest.fn();
 
-        mockUnitOfWork = new (jest.fn<UnitOfWork, undefined[]>(() => ({
+        mockUnitOfWork = new (jest.fn<Partial<UnitOfWork>, undefined[]>(() => ({
             user: {
                 createUser: mockCreateUser,
                 getUserByUsername: mockGetUserByUsername,
             },
-        })))();
+        })))() as UnitOfWork;
 
         mockSchemaValidatorService = new (jest.fn<SchemaValidatorService, undefined[]>(() => ({
             validate: mockValidate,

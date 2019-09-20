@@ -30,6 +30,7 @@ export default class UsersController {
             }
 
             const user = await this.unitOfWork.user.getUserByUsername(req.body.username);
+            console.log('USER', JSON.stringify(user));
             if (!user) {
                 return {
                     statusCode: 400,

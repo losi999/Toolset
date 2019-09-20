@@ -20,7 +20,7 @@ describe('Shows controller', () => {
             tvShowDetails: mockTvShowDetails,
         })))() as TvMazeService;
 
-        controller = new ShowsController(mockTvMazeService);
+        controller = new ShowsController(null, mockTvMazeService);
     });
 
     describe('List shows action', () => {

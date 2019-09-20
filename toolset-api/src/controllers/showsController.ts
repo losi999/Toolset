@@ -2,7 +2,7 @@ import { injectable, inject } from 'inversify';
 import { INJECTABLES, TvMazeTvShowListItem, TvMazeTvShowDetails } from '@/models/types/types';
 import { UnitOfWork } from '@/models/types/interfaces';
 import { ControllerActionType, CommentBody } from '@/models/types/controllerRequest';
-import { BadRequestResponse, ListTvShowsResponse, GetTvShowResponse, ListTvShowCommentsResponse, OkResponse, InternalServerErrorResponse } from '@/models/types/controllerResponses';
+import { BadRequestResponse, ListTvShowsResponse, GetTvShowResponse, ListTvShowCommentsResponse, OkResponse, InternalServerErrorResponse, CommentListItem } from '@/models/types/controllerResponses';
 import TvMazeService from '@/services/tvMazeService';
 
 type ShowSearchQuery = {
@@ -15,7 +15,10 @@ type PathShowId = {
 
 @injectable()
 export default class ShowsController {
-    constructor(private tvMazeService: TvMazeService) { }
+    constructor(
+        @inject(INJECTABLES.unitOfWork) private unitOfWork: UnitOfWork,
+        private tvMazeService: TvMazeService,
+    ) { }
 
     public listTvShows(): ControllerActionType<ListTvShowsResponse | BadRequestResponse | InternalServerErrorResponse, undefined, undefined, ShowSearchQuery> {
         return async (req) => {
@@ -120,15 +123,29 @@ export default class ShowsController {
     public listTvShowComments(): ControllerActionType<ListTvShowCommentsResponse | BadRequestResponse, undefined, PathShowId> {
         return async (req) => {
 
+            const comments = await this.unitOfWork.comment.listComments(req.params.showId);
+
             return {
                 statusCode: 200,
-                body: [],
+                body: comments.map<CommentListItem>((c) => ({
+                    id: c.id,
+                    message: c.message,
+                    postedAt: c.postedAt,
+                    userDisplayName: c.postedBy,
+                })),
             };
         };
     }
 
     public createTvShowComment(): ControllerActionType<OkResponse | BadRequestResponse, CommentBody, PathShowId> {
         return async (req) => {
+
+            await this.unitOfWork.comment.createComment({
+                message: req.body.message,
+                postedAt: new Date().toISOString(),
+                parentId: req.params.showId,
+                postedBy: 'aaaa',
+            });
 
             return {
                 statusCode: 200,

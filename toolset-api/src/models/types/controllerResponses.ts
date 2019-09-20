@@ -38,7 +38,7 @@ type CastListItem = ActorListItem & {
     character: string;
 };
 
-type CommentListItem = {
+export type CommentListItem = {
     id: string;
     userDisplayName: string;
     message: string;
