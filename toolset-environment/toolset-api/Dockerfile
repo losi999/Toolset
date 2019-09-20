@@ -9,4 +9,4 @@ ENV PORT=80
 EXPOSE 80
 EXPOSE 9229
 
-CMD ["nodemon", "--inspect=0.0.0.0:9229", "-L", "server.js"]
+CMD ["nodemon", "--inspect=0.0.0.0:9229", "-L", "server.js", "--delay", "3"]

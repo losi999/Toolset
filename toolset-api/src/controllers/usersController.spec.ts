@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import UsersController from '@/controllers/usersController';
 import { UnitOfWork, TokenService, PasswordService, SchemaValidatorService } from '@/models/types/interfaces';
-import { ControllerRequest, LoginRequest, RegistrationRequest } from '@/models/types/controllerRequest';
+import { LoginBody, RegistrationBody } from '@/models/types/controllerRequest';
 import { BadRequestResponse, LoginResponse, OkResponse } from '@/models/types/controllerResponses';
 
 describe('Users controller', () => {
@@ -25,12 +25,12 @@ describe('Users controller', () => {
         mockEncryptPassword = jest.fn();
         mockValidate = jest.fn();
 
-        mockUnitOfWork = new (jest.fn<UnitOfWork, undefined[]>(() => ({
+        mockUnitOfWork = new (jest.fn<Partial<UnitOfWork>, undefined[]>(() => ({
             user: {
                 createUser: mockCreateUser,
                 getUserByUsername: mockGetUserByUsername,
             },
-        })))();
+        })))() as UnitOfWork;
 
         mockSchemaValidatorService = new (jest.fn<SchemaValidatorService, undefined[]>(() => ({
             validate: mockValidate,
@@ -44,6 +44,7 @@ describe('Users controller', () => {
             checkPassword: mockCheckPassword,
             encryptPassword: mockEncryptPassword,
         })))() as PasswordService;
+
         controller = new UsersController(mockUnitOfWork, mockSchemaValidatorService, mockTokenService, mockPasswordService);
     });
 
@@ -53,8 +54,8 @@ describe('Users controller', () => {
             mockValidate.mockReturnValue(validationError);
 
             const request = {
-                body: {},
-            } as ControllerRequest<LoginRequest>;
+                body: {} as LoginBody,
+            };
 
             const response = await controller.login()(request) as BadRequestResponse;
             expect(response.statusCode).toBe(400);
@@ -68,8 +69,8 @@ describe('Users controller', () => {
             mockGetUserByUsername.mockResolvedValue(null);
 
             const request = {
-                body: { username: 'nonExistingUser' },
-            } as ControllerRequest<LoginRequest>;
+                body: { username: 'nonExistingUser' } as LoginBody,
+            };
 
             const response = await controller.login()(request) as BadRequestResponse;
             expect(response.statusCode).toBe(400);
@@ -86,8 +87,8 @@ describe('Users controller', () => {
             mockCheckPassword.mockReturnValue(false);
 
             const request = {
-                body: { password: 'plainPassword' },
-            } as ControllerRequest<LoginRequest>;
+                body: { password: 'plainPassword' } as LoginBody,
+            };
 
             const response = await controller.login()(request) as BadRequestResponse;
             expect(response.statusCode).toBe(400);
@@ -113,8 +114,8 @@ describe('Users controller', () => {
             mockGenerateToken.mockReturnValue(expectedToken);
 
             const request = {
-                body: { password: 'plainPassword' },
-            } as ControllerRequest<LoginRequest>;
+                body: { password: 'plainPassword' } as LoginBody,
+            };
 
             const response = await controller.login()(request) as LoginResponse;
             expect(response.statusCode).toBe(200);
@@ -133,8 +134,8 @@ describe('Users controller', () => {
             mockValidate.mockReturnValue(validationError);
 
             const request = {
-                body: {},
-            } as ControllerRequest<RegistrationRequest>;
+                body: {} as RegistrationBody,
+            };
 
             const response = await controller.registration()(request) as BadRequestResponse;
             expect(response.statusCode).toBe(400);
@@ -148,8 +149,8 @@ describe('Users controller', () => {
             mockCreateUser.mockRejectedValue({});
 
             const request = {
-                body: {},
-            } as ControllerRequest<RegistrationRequest>;
+                body: {} as RegistrationBody,
+            };
 
             const response = await controller.registration()(request) as BadRequestResponse;
             expect(response.statusCode).toBe(400);
@@ -169,8 +170,8 @@ describe('Users controller', () => {
                     username,
                     password,
                     displayName,
-                },
-            } as ControllerRequest<RegistrationRequest>;
+                } as RegistrationBody,
+            };
 
             const encryptedPassword = 'encryptedPassword';
             mockEncryptPassword.mockReturnValue(encryptedPassword);
@@ -183,14 +184,6 @@ describe('Users controller', () => {
                 role: 'user',
                 password: encryptedPassword,
             });
-        });
-    });
-
-    describe('Profile action', () => {
-        it('should return HTTP 200', async () => {
-            const response = await controller.profile()({} as ControllerRequest<undefined>);
-
-            expect(response.statusCode).toBe(200);
         });
     });
 });

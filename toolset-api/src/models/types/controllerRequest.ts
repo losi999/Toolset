@@ -1,19 +1,25 @@
 import { IncomingHttpHeaders } from 'http';
 
-export type ControllerRequest<B, P = undefined, Q = undefined, H = IncomingHttpHeaders> = {
-    body: B;
-    params: P;
-    query: Q;
-    headers: H;
+type ControllerRequest<Body, Path, Query> = {
+    body?: Body;
+    params?: Path;
+    query?: Query;
+    headers?: IncomingHttpHeaders;
 };
 
-export type LoginRequest = {
+export type ControllerActionType<Return, Body, Path = undefined, Query = undefined> = (req: ControllerRequest<Body, Path, Query>) => Promise<Return>;
+
+export type LoginBody = {
     username: string;
     password: string;
 };
 
-export type RegistrationRequest = {
+export type RegistrationBody = {
     username: string;
     password: string;
     displayName: string;
+};
+
+export type CommentBody = {
+    message: string;
 };
